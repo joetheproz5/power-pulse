@@ -10,7 +10,7 @@ The site includes a web app manifest and service worker. On Android Chrome/Edge,
 
 ## Visual asset
 
-The home scene uses a bundled architectural render by Maverick Frame via Unsplash, provided under the Unsplash License: https://unsplash.com/photos/rXq2vzsuLRg
+The interactive home scene uses the bundled **House | KivLoft** model by Quaternius via Poly Pizza, dedicated to the public domain under CC0: https://poly.pizza/m/vZ1CLbWmSx
 
 ## Genuine real-time updates
 
