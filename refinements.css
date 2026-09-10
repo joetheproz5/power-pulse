@@ -35,15 +35,12 @@
 .route-cable .current { stroke-width: 3.5; stroke-dasharray: 12 14; opacity: 0; }
 .route-cable.left .current { stroke: var(--grid-bright); }
 .route-cable.right .current { stroke: var(--gen-bright); }
-.route-cable.is-active .flow-band { opacity: .18; animation: cable-flow 1s linear infinite; }
-.route-cable.is-active .current { opacity: 1; animation: cable-flow .72s linear infinite; }
-.route-cable.right.is-active .flow-band,.route-cable.right.is-active .current { animation-name: cable-flow-reverse; }
+.route-cable.is-active .flow-band { opacity: .18; }
+.route-cable.is-active .current { opacity: 1; }
 .route-cable.left.is-active .cable-jacket { stroke: #4e9fca; }
 .route-cable.left.is-active .cable-core { stroke: #1e596f; }
 .route-cable.right.is-active .cable-jacket { stroke: #b85956; }
 .route-cable.right.is-active .cable-core { stroke: #762f2c; }
-@keyframes cable-flow { to { stroke-dashoffset: -56; } }
-@keyframes cable-flow-reverse { to { stroke-dashoffset: 56; } }
 
 .environment-card { min-width: 0; }
 .environment-values { grid-template-columns: 1fr 1fr; gap: 0; padding-top: 31px; }
@@ -61,4 +58,3 @@
   .environment-values > div + div { padding-inline-start: 23px; }
   .environment-values strong { font-size: 33px; }
 }
-@media (prefers-reduced-motion: reduce) { .route-cable.is-active .flow-band,.route-cable.is-active .current { animation: none; } }
