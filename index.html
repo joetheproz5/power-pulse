@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="apple-touch-icon" href="icon.svg" />
-    <link rel="stylesheet" href="styles.css?v=20260910.20" />
+    <link rel="stylesheet" href="styles.css?v=20260910.30" />
     <title>Hart El Sett | Power Monitor</title>
   </head>
   <body>
@@ -56,28 +56,91 @@
       <section class="route-panel" aria-label="Current power route">
         <div class="panel-head">
           <h2 data-i18n="powerRoute">Power route</h2>
-          <span class="head-sub" data-i18n="currentRoute">Current route</span>
+          <span class="head-sub" id="route-live" data-i18n="currentRoute">Current route</span>
         </div>
-        <div class="route-flow">
-          <article class="node" id="edl-card">
-            <span class="node-state" id="edl-state">Offline</span>
+        <div class="route-stage">
+          <svg class="route-svg" viewBox="0 0 1040 380" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <defs>
+              <linearGradient id="cableEdl" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#0e7490"/><stop offset="1" stop-color="#22b8d4"/>
+              </linearGradient>
+              <linearGradient id="cableGen" x1="1" y1="0" x2="0" y2="0">
+                <stop offset="0" stop-color="#d97706"/><stop offset="1" stop-color="#f59e0b"/>
+              </linearGradient>
+              <filter id="pulseGlow" x="-40%" y="-40%" width="180%" height="180%">
+                <feGaussianBlur stdDeviation="4" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+
+            <!-- EDL cable: from pylon (left card) to house (center) -->
+            <g class="cable" id="cable-edl">
+              <path class="cable-base" id="edl-path" d="M296 190 C 400 190, 420 158, 512 158"/>
+              <path class="cable-glow" d="M296 190 C 400 190, 420 158, 512 158"/>
+              <g class="pulse-group">
+                <animateMotion dur="1.6s" begin="0s" repeatCount="indefinite" rotate="0"><mpath href="#edl-path"/></animateMotion>
+                <circle class="pulse" r="5" filter="url(#pulseGlow)"><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.15;.85;1" dur="1.6s" begin="0s" repeatCount="indefinite"/></circle>
+              </g>
+              <g class="pulse-group">
+                <animateMotion dur="1.6s" begin=".8s" repeatCount="indefinite" rotate="0"><mpath href="#edl-path"/></animateMotion>
+                <circle class="pulse" r="5" filter="url(#pulseGlow)"><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.15;.85;1" dur="1.6s" begin=".8s" repeatCount="indefinite"/></circle>
+              </g>
+            </g>
+
+            <!-- GEN cable: from generator (right card) to house (center) -->
+            <g class="cable" id="cable-gen">
+              <path class="cable-base" id="gen-path" d="M744 190 C 640 190, 620 158, 528 158"/>
+              <path class="cable-glow" d="M744 190 C 640 190, 620 158, 528 158"/>
+              <g class="pulse-group">
+                <animateMotion dur="1.4s" begin="0s" repeatCount="indefinite" rotate="0"><mpath href="#gen-path"/></animateMotion>
+                <circle class="pulse" r="5" filter="url(#pulseGlow)"><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.15;.85;1" dur="1.4s" begin="0s" repeatCount="indefinite"/></circle>
+              </g>
+              <g class="pulse-group">
+                <animateMotion dur="1.4s" begin=".7s" repeatCount="indefinite" rotate="0"><mpath href="#gen-path"/></animateMotion>
+                <circle class="pulse" r="5" filter="url(#pulseGlow)"><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.15;.85;1" dur="1.4s" begin=".7s" repeatCount="indefinite"/></circle>
+              </g>
+            </g>
+          </svg>
+
+          <article class="node source-node" id="edl-card" data-side="left">
+            <div class="node-head"><span class="node-tag">EDL</span><span class="node-state" id="edl-state">Offline</span></div>
             <span class="node-icon"><svg class="grid-icon" viewBox="0 0 72 72" aria-hidden="true"><path d="M8 64 36 6l28 58M16 50h40M21 39h30M26 28h20M31 17h10M36 6v58M8 64h56M16 50l20-11 20 11M21 39l15-11 15 11M26 28l10-11 10 11"/><path d="M12 56H4m56 0h8M17 45H8m47 0h9M22 34h-9m46 0h9"/></svg></span>
             <p class="node-name" data-i18n="nationalGrid">National grid</p>
-            <span class="node-tag">EDL</span>
           </article>
-          <div class="connector to-right" id="flow-edl" aria-hidden="true"><i></i></div>
-          <article class="node is-home" id="home-module">
-            <span class="node-state live" id="home-source">Generator</span>
-            <span class="node-icon"><svg viewBox="0 0 72 72" aria-hidden="true"><path d="M10 34 36 12l26 22M18 31v29h36V31M30 60V44h12v16M36 12v6"/></svg></span>
+
+          <article class="node home-node" id="home-module">
+            <div class="node-head"><span class="node-tag">HOME</span><span class="node-state live" id="home-source">Generator</span></div>
+            <div class="house" aria-hidden="true">
+              <svg viewBox="0 0 240 190">
+                <defs>
+                  <linearGradient id="hWall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e8edf2"/></linearGradient>
+                  <linearGradient id="hRoof" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f59e0b"/><stop offset="1" stop-color="#d97706"/></linearGradient>
+                  <filter id="hShadow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="6"/></filter>
+                </defs>
+                <ellipse cx="120" cy="172" rx="86" ry="9" fill="#17242e" opacity=".08" filter="url(#hShadow)"/>
+                <rect class="hs-base" x="46" y="82" width="148" height="88" rx="6" fill="url(#hWall)" stroke="#c9d4dc" stroke-width="1.5"/>
+                <path class="hs-roof" d="M34 88 120 22l86 66-8 6H42Z" fill="url(#hRoof)"/>
+                <path d="M104 22h13v18l-13 10Z" fill="#b45309"/>
+                <rect class="hs-win" x="64" y="100" width="30" height="26" rx="3"/>
+                <rect class="hs-win" x="146" y="100" width="30" height="26" rx="3"/>
+                <rect class="hs-win" x="66" y="140" width="12" height="18" rx="2"/>
+                <rect class="hs-win" x="162" y="140" width="12" height="18" rx="2"/>
+                <rect class="hs-door" x="106" y="118" width="28" height="52" rx="3"/>
+                <circle cx="128" cy="146" r="1.8" fill="#9aa7b0"/>
+                <path class="hs-wire" d="M194 96h22v52" fill="none"/>
+                <rect class="hs-meter" x="214" y="148" width="14" height="20" rx="2"/>
+                <path class="hs-drop" d="M120 8v10" />
+                <circle class="hs-bolt-bg" cx="120" cy="14" r="9" fill="#fff7ec" stroke="#f3ddb5"/>
+                <path class="hs-bolt" d="M122 8l-6 8h5l-3 7 7-9h-5Z" fill="#f59e0b"/>
+              </svg>
+            </div>
             <p class="node-name" data-i18n="homeSupply">Home supply</p>
-            <span class="node-tag">HOME</span>
           </article>
-          <div class="connector to-left" id="flow-gen" aria-hidden="true"><i></i></div>
-          <article class="node" id="gen-card">
-            <span class="node-state" id="gen-state">Running</span>
+
+          <article class="node source-node" id="gen-card" data-side="right">
+            <div class="node-head"><span class="node-tag">GEN</span><span class="node-state" id="gen-state">Running</span></div>
             <span class="node-icon"><svg class="generator-icon" viewBox="0 0 72 72" aria-hidden="true"><path d="M8 28h49v30H8zM19 28v-8c0-3 3-6 6-6h16c3 0 6 3 6 6v8M57 35h7v16h-7M16 38h15M16 45h15M16 52h15M38 37h11v12H38zM42 39v8m-3-4h7"/><path d="M15 63h9m25 0h9M17 58v5m37-5v5M26 21h14"/></svg></span>
             <p class="node-name" data-i18n="privateGenerator">Private generator</p>
-            <span class="node-tag">GEN</span>
           </article>
         </div>
         <div class="route-footer"><span id="route-detail">Generator is supplying power now</span><span class="route-time" id="route-time">10:01 — 17:56</span></div>
@@ -111,6 +174,6 @@
 
       <footer><span data-i18n="footerTitle">HART EL SETT · POWER MONITOR</span><span data-i18n="footerRefresh">Automatic data refresh enabled</span></footer>
     </main>
-  <script src="app.js?v=20260910.13"></script>
+  <script src="app.js?v=20260910.14"></script>
   </body>
 </html>
