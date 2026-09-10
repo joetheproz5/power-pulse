@@ -1,5 +1,5 @@
 /* Product-device illustration and route refinements */
-:root { --grid:#82c6ba; --grid-bright:#b7eee3; --gen:#df6f6b; --gen-bright:#ffa29b; }
+:root { --green:#4e9fca; --green2:#8ccbe9; --grid:#4e9fca; --grid-bright:#9bd8f3; --gen:#c96761; --gen-bright:#f1a19a; }
 .settings-button svg.real-settings { fill: currentColor; stroke: none; }
 .settings-button { border-radius: 7px; }
 .connection i { border-radius: 0; box-shadow: none; }
@@ -8,7 +8,7 @@
 
 .source-module.edl-theme .module-top > span:first-child { color: var(--grid-bright); }
 .source-module.gen-theme .module-top > span:first-child { color: var(--gen-bright); }
-.source-module.edl-theme.is-active { background: linear-gradient(145deg,#164239,#102b26); border-color: #5cae9c; }
+.source-module.edl-theme.is-active { background: linear-gradient(145deg,#163642,#10252d); border-color: #4e9fca; }
 .source-module.edl-theme.is-active .module-icon { stroke: var(--grid-bright); }
 .source-module.gen-theme.is-active { background: linear-gradient(145deg,#42201f,#2b1716); border-color: #b85956; }
 .source-module.gen-theme.is-active .module-icon { stroke: var(--gen-bright); }
@@ -20,7 +20,7 @@
 .source-callout.gen { background: linear-gradient(135deg,#41201f,#2b1716); border-color: #8f4845; }
 .source-callout.gen p { color: #ffaaa2; }
 .source-callout.gen svg { stroke: var(--gen-bright); }
-.source-callout.edl { background: linear-gradient(135deg,#164239,#102b26); border-color: #4f998a; }
+.source-callout.edl { background: linear-gradient(135deg,#163642,#10252d); border-color: #4e9fca; }
 .source-callout.edl p { color: var(--grid-bright); }
 .source-callout.edl svg { stroke: var(--grid-bright); }
 .home-module small { color: var(--gen-bright); }
@@ -33,7 +33,7 @@
 .route-cable.right .current { stroke: var(--gen-bright); }
 .route-cable.is-active .current { opacity: 1; animation: cable-flow 1.3s linear infinite; }
 .route-cable.right.is-active .current { animation-name: cable-flow-reverse; }
-.route-cable.left.is-active .cable { stroke: #5cae9c; }
+.route-cable.left.is-active .cable { stroke: #4e9fca; }
 .route-cable.right.is-active .cable { stroke: #b85956; }
 @keyframes cable-flow { to { stroke-dashoffset: -40; } }
 @keyframes cable-flow-reverse { to { stroke-dashoffset: 40; } }
