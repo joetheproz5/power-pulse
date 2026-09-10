@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A clear, modern view of Hart El Sett electricity status." />
+    <title>Hart El Sett / Power Pulse</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="#overview" aria-label="Power Pulse home">
+          <span class="brand-mark"><i></i><i></i><i></i></span>
+          <span>Power<span>Pulse</span></span>
+        </a>
+        <div class="location"><span class="pin"></span>Hart El Sett, Lebanon</div>
+        <a class="source-link" href="https://info.ghawi.me/" target="_blank" rel="noreferrer">View source <span>↗</span></a>
+      </header>
+
+      <section class="hero" id="overview">
+        <div>
+          <p class="eyebrow">ELECTRICITY STATUS <span class="live-dot"></span></p>
+          <h1>Know what’s powering<br />your day.</h1>
+          <p class="lede">A calm, readable view of EDL and generator availability in Hart El Sett.</p>
+        </div>
+        <div class="as-of">
+          <span>Source snapshot</span>
+          <strong id="snapshot-time">10 SEP 2026 · 17:46</strong>
+          <small>Local time · Asia/Beirut</small>
+        </div>
+      </section>
+
+      <section class="now-grid" aria-label="Current power status">
+        <article class="power-card edl-card">
+          <div class="card-top"><span class="icon-grid">⌁</span><span class="tag muted">EDL</span></div>
+          <div>
+            <p class="card-label">National grid</p>
+            <h2 id="edl-state">Offline</h2>
+          </div>
+          <div class="card-footer"><span class="status-dot dark" id="edl-dot"></span><span id="edl-detail">Not supplying power</span></div>
+        </article>
+        <article class="power-card gen-card">
+          <div class="card-top"><span class="icon-grid">◒</span><span class="tag active">GEN</span></div>
+          <div>
+            <p class="card-label">Private generator</p>
+            <h2 id="gen-state">Running</h2>
+          </div>
+          <div class="card-footer"><span class="status-dot bright" id="gen-dot"></span><span id="gen-detail">Supplying power now</span></div>
+        </article>
+        <article class="condition-card">
+          <p class="eyebrow">AMBIENT CONDITIONS</p>
+          <div class="conditions">
+            <div><span class="condition-symbol" id="temperature">34.3°</span><span>Temperature</span></div>
+            <div><span class="condition-symbol" id="humidity">95<span class="percent">%</span></span><span>Humidity</span></div>
+          </div>
+          <p class="condition-note">Recorded with the latest power status.</p>
+        </article>
+      </section>
+
+      <section class="section-head timeline-head">
+        <div><p class="eyebrow">TODAY / WED 10 SEP</p><h2>Power timeline</h2></div>
+        <div class="legend"><span><i class="legend-edl"></i>EDL</span><span><i class="legend-gen"></i>Generator</span><span><i class="legend-none"></i>No supply</span></div>
+      </section>
+
+      <section class="timeline-card" aria-label="Power timeline for today">
+        <div class="time-scale"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
+        <div class="track-row">
+          <span class="track-label">EDL</span>
+          <div class="track" id="edl-track"></div>
+        </div>
+        <div class="track-row">
+          <span class="track-label">GEN</span>
+          <div class="track" id="gen-track"></div>
+        </div>
+        <div class="track-row">
+          <span class="track-label">NONE</span>
+          <div class="track" id="none-track"></div>
+        </div>
+        <div class="timeline-caption"><span id="timeline-caption">Active generator period</span><strong id="timeline-range">10:01 — 17:46</strong></div>
+      </section>
+
+      <section class="lower-grid">
+        <section class="log-panel">
+          <div class="section-head compact"><div><p class="eyebrow">EVENT STREAM</p><h2>Today’s activity</h2></div><span class="event-count">7 events</span></div>
+          <ol class="event-list" id="event-list"></ol>
+        </section>
+
+        <section class="month-panel">
+          <div class="section-head compact"><div><p class="eyebrow">SEPTEMBER 2026</p><h2>Month to date</h2></div></div>
+          <div class="donut-wrap">
+            <div class="donut" id="donut" aria-label="Monthly power source breakdown"><div class="donut-center"><strong id="tracked-hours">209.7</strong><span>tracked hours</span></div></div>
+            <ul class="month-key" id="month-key"></ul>
+          </div>
+          <p class="month-note">Figures are calculated from the source’s September 2026 statistics.</p>
+        </section>
+      </section>
+
+      <footer>
+        <p>PowerPulse is an independent dashboard concept built from public Hart El Sett status data.</p>
+        <p>Data snapshot: <a href="https://info.ghawi.me/" target="_blank" rel="noreferrer">info.ghawi.me ↗</a></p>
+      </footer>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
