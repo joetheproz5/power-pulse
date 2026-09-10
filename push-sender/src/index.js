@@ -33,7 +33,8 @@ function languageOf(value) {
 function headersFor(request) {
   const origin = request.headers.get("Origin") || "";
   const local = /^http:\/\/localhost(?::\d+)?$/i.test(origin);
-  const allowed = origin === SITE_ORIGIN || local;
+  // Installed iOS web apps can present their own origin as "null" for a cross-origin fetch.
+  const allowed = origin === SITE_ORIGIN || origin === "null" || local;
   return {
     ...(allowed ? { "Access-Control-Allow-Origin": origin, Vary: "Origin" } : {}),
     "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS",
@@ -51,7 +52,7 @@ function response(request, value, status = 200) {
 
 function isAllowedBrowserRequest(request) {
   const origin = request.headers.get("Origin");
-  return origin === SITE_ORIGIN || /^http:\/\/localhost(?::\d+)?$/i.test(origin || "");
+  return origin === SITE_ORIGIN || origin === "null" || /^http:\/\/localhost(?::\d+)?$/i.test(origin || "");
 }
 
 function validSubscription(subscription) {
@@ -162,7 +163,10 @@ async function checkAndSend(env) {
 }
 
 async function subscribe(request, env) {
-  if (!isAllowedBrowserRequest(request)) return response(request, { ok: false, error: "Origin is not allowed." }, 403);
+  if (!isAllowedBrowserRequest(request)) {
+    console.warn("Push subscription rejected for an unapproved origin.");
+    return response(request, { ok: false, error: "Origin is not allowed." }, 403);
+  }
   let body;
   try { body = await request.json(); } catch { return response(request, { ok: false, error: "Invalid JSON." }, 400); }
   if (!validSubscription(body.subscription)) return response(request, { ok: false, error: "Invalid push subscription." }, 400);
@@ -171,6 +175,7 @@ async function subscribe(request, env) {
   const key = `${SUBSCRIPTION_PREFIX}${id}`;
   const record = { subscription: body.subscription, language, updatedAt: new Date().toISOString() };
   await env.PUSH_STATE.put(key, JSON.stringify(record));
+  console.log("Push subscription stored.");
 
   let testSent = false;
   if (body.announce === true) {
