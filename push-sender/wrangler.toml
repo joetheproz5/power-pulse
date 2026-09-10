@@ -1,0 +1,11 @@
+name = "powerpulse-push"
+main = "src/index.js"
+compatibility_date = "2026-09-10"
+workers_dev = true
+
+[triggers]
+crons = ["* * * * *"]
+
+[[kv_namespaces]]
+binding = "PUSH_STATE"
+id = "0ada9f6449b44cadb67680fdd3298606"

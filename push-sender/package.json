@@ -1,0 +1,12 @@
+{
+  "name": "powerpulse-push-sender",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node --check src/index.js",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "@block65/webcrypto-web-push": "2.0.0"
+  }
+}

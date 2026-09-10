@@ -1,1 +1,5 @@
 source-snapshot.html
+node_modules/
+.wrangler/
+.dev.vars
+push-sender/.dev.vars
