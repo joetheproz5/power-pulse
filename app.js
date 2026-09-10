@@ -46,7 +46,12 @@ function renderTimeline(data) {
     if (gen) addSegment(byId("gen-track"), "gen-segment", time, end);
     if (!edl && !gen) addSegment(byId("none-track"), "none-segment", time, end);
   });
-  const [start, edl, gen] = rows.at(-1);
+  const [latest, edl, gen] = rows.at(-1);
+  let start = latest;
+  for (let index = rows.length - 2; index >= 0; index -= 1) {
+    if (rows[index][1] !== edl || rows[index][2] !== gen) break;
+    start = rows[index][0];
+  }
   byId("timeline-caption").textContent = `Current source · ${stateName(edl, gen)}`;
   byId("timeline-range").textContent = `${titleTime(start)} — ${data.sourceTime.slice(0,5)}`;
 }
