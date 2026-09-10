@@ -32,7 +32,7 @@
 .route-cable .cable-jacket { stroke: #53615d; stroke-width: 6; }
 .route-cable .cable-core { stroke: #273631; stroke-width: 2; }
 .route-cable .flow-band { stroke-width: 7; stroke-dasharray: 16 20; opacity: 0; }
-.route-cable .current { stroke-width: 3.25; stroke-dasharray: 10 18; opacity: 0; }
+.route-cable .current { stroke-width: 3.5; stroke-dasharray: 12 14; opacity: 0; }
 .route-cable.left .current { stroke: var(--grid-bright); }
 .route-cable.right .current { stroke: var(--gen-bright); }
 .route-cable.is-active .flow-band { opacity: .18; animation: cable-flow 1s linear infinite; }
