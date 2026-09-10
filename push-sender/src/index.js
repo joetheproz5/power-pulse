@@ -224,7 +224,7 @@ export default {
     return response(request, { ok: false, error: "Not found." }, 404);
   },
 
-  async scheduled(_controller, env, ctx) {
-    ctx.waitUntil(checkAndSend(env));
+  async scheduled(_controller, env) {
+    await checkAndSend(env);
   }
 };
