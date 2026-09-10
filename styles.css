@@ -82,21 +82,24 @@ body{
 .panel-head h2{margin:0;font-size:18px;font-weight:750;letter-spacing:-.02em}
 .head-sub{color:var(--faint);font-size:13px}
 .head-sub.is-live{color:var(--ok);font-weight:700}
-.route-stage{position:relative;display:grid;grid-template-columns:1fr 1.1fr 1fr;align-items:end;gap:0;padding:26px 0 8px}
-.route-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
-/* cables */
-.cable-base{fill:none;stroke:#d6dee5;stroke-width:3.5;stroke-linecap:round}
-.cable-glow{fill:none;stroke:transparent;stroke-width:3.5;stroke-linecap:round}
-.pulse{fill:#fff;opacity:0}
-.cable.is-active .cable-base{stroke-width:4}
-#cable-edl.is-active .cable-base{stroke:url(#cableEdl)}
-#cable-gen.is-active .cable-base{stroke:url(#cableGen)}
-#cable-edl.is-active .cable-glow{stroke:rgba(34,184,212,.25);stroke-width:9}
-#cable-gen.is-active .cable-glow{stroke:rgba(245,158,11,.28);stroke-width:9}
-#cable-edl.is-active .pulse{fill:#22b8d4}
-#cable-gen.is-active .pulse{fill:#f59e0b}
-@media(prefers-reduced-motion:reduce){.pulse-group{display:none}.cable.is-active .cable-base{stroke-dasharray:6 8;animation:dash-crawl 1.2s linear infinite}}
-@keyframes dash-crawl{to{stroke-dashoffset:-28}}
+.route-stage{display:grid;grid-template-columns:1fr 84px 1.1fr 84px 1fr;align-items:end;gap:0;padding:28px 0 20px}
+.home-node{margin-top:-10px}
+.source-node{margin-bottom:-12px}
+/* link cells + cables */
+.link-cell{position:relative;align-self:stretch;min-height:220px}
+.link-svg{position:absolute;inset:0;width:100%;height:100%}
+.link-base{fill:none;stroke:#d6dee5;stroke-width:3;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.link-glow{fill:none;stroke:transparent;stroke-width:9;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.link-flow{fill:none;stroke:transparent;stroke-width:3;stroke-linecap:round;stroke-dasharray:5 13;stroke-dashoffset:0;vector-effect:non-scaling-stroke}
+#cable-edl.is-active .link-base{stroke:#16a34a}
+#cable-edl.is-active .link-glow{stroke:rgba(22,163,74,.22)}
+#cable-edl.is-active .link-flow{stroke:#4ade80;animation:edl-flow .9s linear infinite}
+#cable-gen.is-active .link-base{stroke:#dc2626}
+#cable-gen.is-active .link-glow{stroke:rgba(220,38,38,.2)}
+#cable-gen.is-active .link-flow{stroke:#f87171;animation:gen-flow .9s linear infinite}
+@keyframes edl-flow{from{stroke-dashoffset:36}to{stroke-dashoffset:0}}
+@keyframes gen-flow{from{stroke-dashoffset:0}to{stroke-dashoffset:36}}
+@media(prefers-reduced-motion:reduce){.link-flow{animation:none}}
 /* nodes */
 .node{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:10px;padding:16px 14px 18px;text-align:center;border:1.5px solid var(--line);border-radius:var(--radius);background:var(--panel);box-shadow:var(--shadow-sm)}
 .source-node{min-height:196px;justify-content:flex-end}
@@ -197,7 +200,6 @@ footer{display:flex;justify-content:space-between;gap:12px;margin:36px 0 0;paddi
 /* ── RTL ─────────────────────────────────── */
 html[dir="rtl"] .settings-panel{right:auto;left:0;text-align:right}
 html[dir="rtl"] .route-footer,html[dir="rtl"] footer,html[dir="rtl"] .panel-header,html[dir="rtl"] .panel-head{flex-direction:row-reverse}
-html[dir="rtl"] .route-stage{direction:ltr}
 html[dir="rtl"] .breakdown-item{border-left:0;border-right:3px solid var(--line);padding-left:0;padding-right:9px}
 html[dir="rtl"] .breakdown-item:nth-child(1){border-color:var(--accent)}
 html[dir="rtl"] .breakdown-item:nth-child(2){border-color:var(--grid)}
@@ -216,7 +218,7 @@ html[dir="rtl"] .event{border-left:0;border-right:3px solid var(--line);border-r
   .overview h1{font-size:36px}
   .source-callout{min-width:0;margin-top:22px;padding:16px 18px}
   .route-panel{padding:18px}
-  .route-stage{grid-template-columns:1fr 1.15fr 1fr;padding:18px 0 6px}
+  .route-stage{grid-template-columns:1fr 44px 1.1fr 44px 1fr;padding:16px 0 6px}
   .node{padding:13px 8px 14px;border-radius:14px;gap:8px}
   .source-node{min-height:150px}
   .node-icon{width:48px;height:48px;border-radius:14px}
@@ -225,6 +227,7 @@ html[dir="rtl"] .event{border-left:0;border-right:3px solid var(--line);border-r
   .node-tag{display:none}
   .node-state{font-size:8.5px}
   .house{width:min(200px,94%)}
+  .link-cell{min-height:150px}
   .route-footer{font-size:12px;gap:10px}
   .reading-grid{grid-template-columns:1fr 1fr}
   .month-card{grid-column:1/-1;min-height:0}
