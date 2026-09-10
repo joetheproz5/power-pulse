@@ -118,6 +118,14 @@ html[dir="rtl"] .route-cable.right { right:auto; left:15%; }
 #flow-edl,#flow-gen,.route-cable.legacy { display:none; }
 .route-cable.direct { top:272px; left:0; right:auto; width:100%; height:150px; z-index:1; }
 html[dir="rtl"] .route-cable.direct { left:0; right:auto; transform:none; }
+.route-layout:has(#flow-edl.is-active) .route-cable.direct.left .cable-jacket { stroke:#a8d0e3; }
+.route-layout:has(#flow-edl.is-active) .route-cable.direct.left .cable-core { stroke:#e3f2fa; }
+.route-layout:has(#flow-edl.is-active) .route-cable.direct.left .flow-band { opacity:.18; }
+.route-layout:has(#flow-edl.is-active) .route-cable.direct.left .current { opacity:1; stroke:#0875a5; animation:current-flow .62s linear infinite; }
+.route-layout:has(#flow-gen.is-active) .route-cable.direct.right .cable-jacket { stroke:#e7bbb7; }
+.route-layout:has(#flow-gen.is-active) .route-cable.direct.right .cable-core { stroke:#fae6e3; }
+.route-layout:has(#flow-gen.is-active) .route-cable.direct.right .flow-band { opacity:.18; }
+.route-layout:has(#flow-gen.is-active) .route-cable.direct.right .current { opacity:1; stroke:#b22f2a; animation:current-flow-reverse .62s linear infinite; }
 .route-cable.is-active .current { animation:current-flow .62s linear infinite; }
 .route-cable.right.is-active .current { animation-name:current-flow-reverse; }
 @keyframes current-flow { to { stroke-dashoffset:-80; } }
