@@ -10,6 +10,7 @@
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="apple-touch-icon" href="icon.svg" />
     <link rel="stylesheet" href="styles.css?v=20260910.8" />
+    <link rel="stylesheet" href="refinements.css?v=20260910.1" />
     <title>Hart El Sett | Power Monitor</title>
   </head>
   <body>
@@ -23,7 +24,7 @@
           <div class="connection"><i></i><span data-i18n="connected">Connected</span></div>
           <div class="settings-wrap">
             <button class="settings-button" id="settings-button" type="button" aria-expanded="false" aria-controls="settings-panel" data-i18n-aria="settings">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.6 3.5h4.8l.7 2.1 2 .9 2-1 3.4 3.4-1 2 .9 2 .1 2.2-2.1.9-.9 2 1 2-3.4 3.4-2-1-2 .9-.7 2.1H9.6l-.7-2.1-2-.9-2 1L1.5 19l1-2-.9-2-.1-2.2 2.1-.9.9-2-1-2L6.9 4.4l2 1 2-.9.7-2.1Z"/><path d="M12 15.4a3.4 3.4 0 1 0 0-6.8 3.4 3.4 0 0 0 0 6.8Z"/></svg>
+              <svg class="real-settings" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.43 12.98c.04-.32.07-.65.07-.98s-.03-.66-.08-.98l2.11-1.65a.5.5 0 0 0 .12-.64l-2-3.46a.5.5 0 0 0-.61-.22l-2.49 1a7.3 7.3 0 0 0-1.69-.98L14.5 2.42A.5.5 0 0 0 14 2h-4a.5.5 0 0 0-.5.42l-.38 2.65c-.61.25-1.18.58-1.69.98l-2.49-1a.5.5 0 0 0-.61.22l-2 3.46a.5.5 0 0 0 .12.64l2.11 1.65c-.05.32-.08.65-.08.98s.03.66.08.98l-2.11 1.65a.5.5 0 0 0-.12.64l2 3.46c.13.22.39.31.61.22l2.49-1c.51.4 1.08.73 1.69.98l.38 2.65c.04.24.25.42.5.42h4c.25 0 .46-.18.5-.42l.37-2.65c.62-.25 1.19-.58 1.7-.98l2.49 1c.22.09.48 0 .61-.22l2-3.46a.5.5 0 0 0-.12-.64l-2.11-1.65ZM12 15.5A3.5 3.5 0 1 1 12 8a3.5 3.5 0 0 1 0 7.5Z"/></svg>
               <span class="sr-only" data-i18n="settings">Settings</span>
             </button>
             <div class="settings-panel" id="settings-panel" hidden>
@@ -58,7 +59,7 @@
         <div class="route-layout">
           <article class="source-module" id="edl-card">
             <div class="module-top"><span>EDL</span><span class="module-state" id="edl-state">Offline</span></div>
-            <svg class="module-icon grid-icon" viewBox="0 0 72 72" aria-label="EDL three-pole grid"><path d="M13 58V20M36 58V10M59 58V20M8 22h56M22 12h28M13 33h46M18 22v9m18-9v9m18-9v9M8 63h56"/></svg>
+            <svg class="module-icon grid-icon" viewBox="0 0 72 72" aria-label="EDL grid pylon"><path d="M10 61 36 8l26 53M18 45h36M23 34h26M28 23h16M36 8v53M10 61h52M24 45l12-11 12 11M28 23l8 11 8-11"/><path d="M14 50h-7m51 0h7M22 39h-7m51 0h7M30 28h-7m51 0h7"/></svg>
             <p data-i18n="nationalGrid">National grid</p>
           </article>
           <div class="route-link left" id="flow-edl"><span></span></div>
@@ -70,7 +71,7 @@
           <div class="route-link right" id="flow-gen"><span></span></div>
           <article class="source-module" id="gen-card">
             <div class="module-top"><span>GEN</span><span class="module-state" id="gen-state">Running</span></div>
-            <svg class="module-icon generator-icon" viewBox="0 0 72 72" aria-label="Generator"><path d="M11 26h45v31H11zM56 35h8v13h-8M20 18v8m12-8v8m12-8v8M21 39h21M21 47h14"/><path d="m40 31-7 11h7l-5 10 11-14h-7l5-7Z"/></svg>
+            <svg class="module-icon generator-icon" viewBox="0 0 72 72" aria-label="Generator"><path d="M10 28h46v29H10zM20 28v-7c0-3 3-5 6-5h14c3 0 6 2 6 5v7M56 35h7v14h-7M17 39h15M17 47h15M40 38l-5 8h5l-3 7 9-11h-5l4-4Z"/><path d="M18 61h8m22 0h8M17 57v4m40-4v4"/></svg>
             <p data-i18n="privateGenerator">Private generator</p>
           </article>
         </div>

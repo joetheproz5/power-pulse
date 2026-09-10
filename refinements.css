@@ -1,0 +1,34 @@
+/* Device-icon and route-motion refinements */
+.settings-button svg.real-settings { fill: currentColor; stroke: none; }
+.settings-button { border-radius: 7px; }
+.connection i { border-radius: 0; box-shadow: none; }
+.house-icon { border-radius: 14px; }
+.module-icon.grid-icon { stroke-width: 2.35; }
+.module-icon.generator-icon { stroke-width: 2.45; }
+
+.route-link { height: 4px; overflow: hidden; background: #28322e; }
+.route-link span { display: none; }
+.route-link.is-active,
+.route-link.grid-active {
+  background-color: #25342a;
+  background-image: repeating-linear-gradient(90deg, var(--green2) 0 10px, transparent 10px 22px);
+  background-size: 44px 100%;
+  animation: current-forward .9s linear infinite;
+}
+.route-link.grid-active {
+  background-color: #213732;
+  background-image: repeating-linear-gradient(90deg, #b5e7dd 0 10px, transparent 10px 22px);
+}
+.route-link.right.is-active { animation-name: current-reverse; }
+
+@keyframes current-forward {
+  to { background-position: 44px 0; }
+}
+@keyframes current-reverse {
+  to { background-position: -44px 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-link.is-active,
+  .route-link.grid-active { animation: none; }
+}
