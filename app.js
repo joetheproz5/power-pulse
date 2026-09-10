@@ -71,8 +71,6 @@ function renderLogs(data) {
 
 function renderMonth(data) {
   const values = data.month, total = values.edl + values.gen + values.none;
-  const genPct = values.gen / total * 100, edlPct = values.edl / total * 100;
-  byId("donut").style.background = `conic-gradient(var(--orange) 0 ${genPct}%, var(--green) ${genPct}% ${genPct + edlPct}%, var(--red) ${genPct + edlPct}% 100%)`;
   byId("tracked-hours").textContent = total.toFixed(1);
   byId("month-key").innerHTML = [["gen-dot","Generator",values.gen],["edl-dot","EDL",values.edl],["none-dot","No power",values.none]].map(([dot,label,value]) => `<li><span class="key-dot ${dot}"></span><div><b>${label}</b><small>${value.toFixed(1)} h · ${(value / total * 100).toFixed(1)}%</small></div></li>`).join("");
   document.querySelector(".month-panel .eyebrow").textContent = values.label.toUpperCase();
@@ -83,3 +81,7 @@ function render(data) { setPower(data); renderTimeline(data); renderLogs(data); 
 async function load() { try { const response = await fetch(`data/status.json?cache=${Date.now()}`); if (!response.ok) throw new Error("No fresh data"); return await response.json(); } catch { return fallback; } }
 load().then(render);
 setInterval(() => load().then(render), 30000);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("service-worker.js"));
+}

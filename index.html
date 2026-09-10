@@ -4,27 +4,32 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="A clear, modern view of Hart El Sett electricity status." />
+    <meta name="theme-color" content="#000000" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="icon.svg" />
     <title>Hart El Sett / Power Monitor</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=20260910.3" />
+    <link rel="stylesheet" href="styles.css?v=20260910.4" />
   </head>
   <body>
     <main class="shell">
       <header class="topbar">
         <a class="brand" href="#overview" aria-label="Hart El Sett power monitor">
           <span class="brand-mark"><i></i><i></i><i></i></span>
-          <span>HART EL SETT <em>/ POWER</em></span>
+          <span>Hart El Sett <em>Power</em></span>
         </a>
-        <div class="location"><span class="pin"></span>Hart El Sett, Lebanon</div>
+        <div class="location">Lebanon</div>
       </header>
 
       <section class="hero" id="overview">
         <div>
-          <p class="eyebrow">ELECTRICITY STATUS <span class="live-dot"></span></p>
-          <h1>Electricity,<br />at a glance.</h1>
-          <p class="lede">A live operational readout for EDL and generator availability in Hart El Sett.</p>
+          <p class="eyebrow">ELECTRICITY STATUS</p>
+          <h1>Power status</h1>
+          <p class="lede">Clear, current information for Hart El Sett.</p>
         </div>
         <div class="as-of">
           <span>Source snapshot</span>
@@ -35,7 +40,7 @@
 
       <section class="now-grid" aria-label="Current power status">
         <article class="power-card edl-card">
-          <div class="card-top"><span class="icon-grid">⌁</span><span class="tag muted">EDL</span></div>
+          <div class="card-top"><span class="tag muted">EDL</span></div>
           <div>
             <p class="card-label">National grid</p>
             <h2 id="edl-state">Offline</h2>
@@ -43,7 +48,7 @@
           <div class="card-footer"><span class="status-dot dark" id="edl-dot"></span><span id="edl-detail">Not supplying power</span></div>
         </article>
         <article class="power-card gen-card">
-          <div class="card-top"><span class="icon-grid">◒</span><span class="tag active">GEN</span></div>
+          <div class="card-top"><span class="tag active">GEN</span></div>
           <div>
             <p class="card-label">Private generator</p>
             <h2 id="gen-state">Running</h2>
@@ -90,8 +95,8 @@
 
         <section class="month-panel">
           <div class="section-head compact"><div><p class="eyebrow">SEPTEMBER 2026</p><h2>Month to date</h2></div></div>
-          <div class="donut-wrap">
-            <div class="donut" id="donut" aria-label="Monthly power source breakdown"><div class="donut-center"><strong id="tracked-hours">209.7</strong><span>tracked hours</span></div></div>
+          <div class="month-summary">
+            <div class="summary-total"><strong id="tracked-hours">209.7</strong><span>tracked hours</span></div>
             <ul class="month-key" id="month-key"></ul>
           </div>
           <p class="month-note">Figures are calculated from the source’s September 2026 statistics.</p>
@@ -103,6 +108,6 @@
         <p>Automatic data refresh enabled</p>
       </footer>
     </main>
-    <script src="app.js?v=20260910.2"></script>
+    <script src="app.js?v=20260910.3"></script>
   </body>
 </html>
