@@ -10,8 +10,8 @@
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="apple-touch-icon" href="icon.svg" />
     <link rel="stylesheet" href="styles.css?v=20260910.8" />
-  <link rel="stylesheet" href="refinements.css?v=20260910.7" />
-  <link rel="stylesheet" href="light.css?v=20260910.4" />
+  <link rel="stylesheet" href="refinements.css?v=20260910.8" />
+  <link rel="stylesheet" href="light.css?v=20260910.5" />
     <title>Hart El Sett | Power Monitor</title>
   </head>
   <body>
@@ -63,13 +63,13 @@
             <svg class="module-icon grid-icon" viewBox="0 0 72 72" aria-label="EDL grid pylon"><path d="M8 64 36 6l28 58M16 50h40M21 39h30M26 28h20M31 17h10M36 6v58M8 64h56M16 50l20-11 20 11M21 39l15-11 15 11M26 28l10-11 10 11"/><path d="M12 56H4m56 0h8M17 45H8m47 0h9M22 34h-9m46 0h9"/><path d="M4 56c5 0 5 5 10 5m46-5c-5 0-5 5-10 5"/></svg>
             <p data-i18n="nationalGrid">National grid</p>
           </article>
-          <svg class="route-cable left" id="flow-edl" viewBox="0 0 180 90" preserveAspectRatio="none" aria-hidden="true"><path class="cable-shadow" d="M0 52 C40 52 52 18 100 27 S142 51 180 42"/><path class="cable-jacket" d="M0 52 C40 52 52 18 100 27 S142 51 180 42"/><path class="cable-core" d="M0 52 C40 52 52 18 100 27 S142 51 180 42"/><path class="flow-band" d="M0 52 C40 52 52 18 100 27 S142 51 180 42"><animate attributeName="stroke-dashoffset" from="0" to="-72" dur="0.9s" repeatCount="indefinite"/></path><path class="current" d="M0 52 C40 52 52 18 100 27 S142 51 180 42"><animate attributeName="stroke-dashoffset" from="0" to="-52" dur="0.55s" repeatCount="indefinite"/></path></svg>
+          <svg class="route-cable left" id="flow-edl" viewBox="0 0 180 90" preserveAspectRatio="none" aria-hidden="true"><path class="cable-shadow" d="M0 52 C40 52 52 18 100 27 S142 51 180 42"/><path class="cable-jacket" d="M0 52 C40 52 52 18 100 27 S142 51 180 42"/><path class="cable-core" d="M0 52 C40 52 52 18 100 27 S142 51 180 42"/><path class="flow-band" d="M0 52 C40 52 52 18 100 27 S142 51 180 42"><animate attributeName="stroke-dashoffset" from="0" to="-72" dur="0.9s" repeatCount="indefinite"/></path><path class="current" d="M0 52 C40 52 52 18 100 27 S142 51 180 42"><animate attributeName="stroke-dashoffset" from="0" to="-52" dur="0.55s" repeatCount="indefinite"/></path><rect class="power-packet" x="-7" y="-3" width="14" height="6" rx="1"><animateMotion path="M0 52 C40 52 52 18 100 27 S142 51 180 42" dur="1.05s" repeatCount="indefinite" rotate="auto"/></rect></svg>
           <article class="home-module" id="home-module">
             <div class="house-icon"><svg viewBox="0 0 90 90" aria-hidden="true"><path d="m9 42 36-30 36 30v35H9zM27 77V55h19v22M55 48h15v14H55zM19 46h23M62 12v17"/><path d="M48 32h13l-6 9h7l-12 15 4-12h-7z"/></svg></div>
             <strong data-i18n="homeSupply">Home supply</strong>
             <small id="home-source">Generator</small>
           </article>
-          <svg class="route-cable right" id="flow-gen" viewBox="0 0 180 90" preserveAspectRatio="none" aria-hidden="true"><path class="cable-shadow" d="M0 42 C38 51 80 18 128 27 S150 52 180 52"/><path class="cable-jacket" d="M0 42 C38 51 80 18 128 27 S150 52 180 52"/><path class="cable-core" d="M0 42 C38 51 80 18 128 27 S150 52 180 52"/><path class="flow-band" d="M0 42 C38 51 80 18 128 27 S150 52 180 52"><animate attributeName="stroke-dashoffset" from="0" to="72" dur="0.9s" repeatCount="indefinite"/></path><path class="current" d="M0 42 C38 51 80 18 128 27 S150 52 180 52"><animate attributeName="stroke-dashoffset" from="0" to="52" dur="0.55s" repeatCount="indefinite"/></path></svg>
+          <svg class="route-cable right" id="flow-gen" viewBox="0 0 180 90" preserveAspectRatio="none" aria-hidden="true"><path class="cable-shadow" d="M0 42 C38 51 80 18 128 27 S150 52 180 52"/><path class="cable-jacket" d="M0 42 C38 51 80 18 128 27 S150 52 180 52"/><path class="cable-core" d="M0 42 C38 51 80 18 128 27 S150 52 180 52"/><path class="flow-band" d="M0 42 C38 51 80 18 128 27 S150 52 180 52"><animate attributeName="stroke-dashoffset" from="0" to="72" dur="0.9s" repeatCount="indefinite"/></path><path class="current" d="M0 42 C38 51 80 18 128 27 S150 52 180 52"><animate attributeName="stroke-dashoffset" from="0" to="52" dur="0.55s" repeatCount="indefinite"/></path><rect class="power-packet" x="-7" y="-3" width="14" height="6" rx="1"><animateMotion path="M0 42 C38 51 80 18 128 27 S150 52 180 52" dur="1.05s" repeatCount="indefinite" rotate="auto"/></rect></svg>
           <article class="source-module gen-theme" id="gen-card">
             <div class="module-top"><span>GEN</span><span class="module-state" id="gen-state">Running</span></div>
             <svg class="module-icon generator-icon" viewBox="0 0 72 72" aria-label="Generator"><path d="M8 28h49v30H8zM19 28v-8c0-3 3-6 6-6h16c3 0 6 3 6 6v8M57 35h7v16h-7M16 38h15M16 45h15M16 52h15M38 37h11v12H38zM42 39v8m-3-4h7"/><path d="M15 63h9m25 0h9M17 58v5m37-5v5M26 21h14"/></svg>
