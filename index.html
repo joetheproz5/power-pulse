@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=20260910.4" />
+    <link rel="stylesheet" href="styles.css?v=20260910.5" />
   </head>
   <body>
     <main class="shell">
@@ -39,21 +39,21 @@
       </section>
 
       <section class="now-grid" aria-label="Current power status">
-        <article class="power-card edl-card">
+        <article class="power-card edl-card" id="edl-card">
           <div class="card-top"><span class="tag muted">EDL</span></div>
           <div>
             <p class="card-label">National grid</p>
             <h2 id="edl-state">Offline</h2>
           </div>
-          <div class="card-footer"><span class="status-dot dark" id="edl-dot"></span><span id="edl-detail">Not supplying power</span></div>
+          <div class="card-footer"><span class="status-mark dark" id="edl-mark">—</span><span id="edl-detail">Not supplying power</span></div>
         </article>
-        <article class="power-card gen-card">
+        <article class="power-card gen-card" id="gen-card">
           <div class="card-top"><span class="tag active">GEN</span></div>
           <div>
             <p class="card-label">Private generator</p>
             <h2 id="gen-state">Running</h2>
           </div>
-          <div class="card-footer"><span class="status-dot bright" id="gen-dot"></span><span id="gen-detail">Supplying power now</span></div>
+          <div class="card-footer"><span class="status-mark bright" id="gen-mark">✓</span><span id="gen-detail">Supplying power now</span></div>
         </article>
         <article class="condition-card">
           <p class="eyebrow">AMBIENT CONDITIONS</p>
@@ -63,6 +63,12 @@
           </div>
           <p class="condition-note">Recorded with the latest power status.</p>
         </article>
+      </section>
+
+      <section class="active-source gen" id="active-source" aria-live="polite">
+        <p>POWER IS COMING FROM</p>
+        <strong id="active-source-name">GENERATOR</strong>
+        <span id="active-source-symbol" aria-hidden="true">✓</span>
       </section>
 
       <section class="section-head timeline-head">
@@ -108,6 +114,6 @@
         <p>Automatic data refresh enabled</p>
       </footer>
     </main>
-    <script src="app.js?v=20260910.3"></script>
+    <script src="app.js?v=20260910.4"></script>
   </body>
 </html>

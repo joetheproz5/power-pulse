@@ -1,5 +1,5 @@
-const CACHE = "hart-el-sett-power-v2";
-const APP_FILES = ["./", "./index.html", "./styles.css?v=20260910.4", "./app.js?v=20260910.3", "./manifest.webmanifest", "./icon.svg"];
+const CACHE = "hart-el-sett-power-v3";
+const APP_FILES = ["./", "./index.html", "./styles.css?v=20260910.5", "./app.js?v=20260910.4", "./manifest.webmanifest", "./icon.svg"];
 
 self.addEventListener("install", event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(APP_FILES))));
 self.addEventListener("activate", event => event.waitUntil(self.clients.claim()));
