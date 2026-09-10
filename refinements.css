@@ -35,9 +35,9 @@
 html[dir="rtl"] .route-cable.left { left:auto; right:16%; transform:scaleX(-1); }
 html[dir="rtl"] .route-cable.right { right:auto; left:16%; transform:scaleX(-1); }
 .home-module { width:min(500px,100%); gap:3px; }
-.house-illustration { width:min(470px,100%); height:254px; }
+.house-illustration { width:min(560px,100%); height:290px; }
 .house-illustration svg { width:100%; height:100%; overflow:visible; }
-.scene-ground { fill:none; stroke:#d7e0e5; stroke-width:2; }.scene-shadow { fill:#d7e1e6; opacity:.65; }.scene-side { fill:url(#side); stroke:#9baab3; stroke-width:1.2; }.scene-front { fill:url(#wall); stroke:#9baab3; stroke-width:1.2; }.scene-roof { fill:url(#roof); stroke:#405664; stroke-width:1.5; }.scene-roof-line { fill:none; stroke:#eef5f7; stroke-width:1.3; opacity:.65; }.scene-window { fill:#f3c49b; stroke:#d68d5e; stroke-width:1.2; }.scene-door { fill:#718794; stroke:#4d6571; stroke-width:1.2; }.scene-porch { fill:#ced9df; stroke:#a7b7c0; stroke-width:1.2; }.scene-cable { fill:none; stroke:#536a76; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }.scene-meter { fill:#f8fbfc; stroke:#637985; stroke-width:1.4; }.scene-meter-line { fill:none; stroke:#637985; stroke-width:1.3; }.scene-light { fill:#84c6a1; opacity:.78; }
+.scene-plane-grid { fill:none; stroke:#dfe7eb; stroke-width:1; }.scene-shadow { fill:#b9c8d0; opacity:.22; }.scene-shadow.solid { fill:#d3dee3; opacity:.86; filter:none; }.scene-side { fill:url(#side); stroke:#9aaeb8; stroke-width:1.2; }.scene-front { fill:url(#wall); stroke:#aab9c0; stroke-width:1.2; }.scene-foundation { fill:#c5d2d8; stroke:#9eb0ba; stroke-width:1.1; }.scene-roof { fill:url(#roof); stroke:#294252; stroke-width:1.4; }.scene-roof-edge { fill:#203746; stroke:#294252; stroke-width:1.1; }.scene-roof-line { fill:none; stroke:#dbe8ee; stroke-width:1.05; opacity:.47; }.scene-chimney { fill:#d8e3e7; stroke:#78909b; stroke-width:1; }.scene-chimney-top { fill:#f4f8fa; stroke:#78909b; stroke-width:1; }.scene-window { fill:url(#glass); stroke:#426b7f; stroke-width:1.1; }.scene-window.large { fill:#d9b083; stroke:#bc7e54; }.scene-window-line { fill:none; stroke:#d8eef5; stroke-width:1; opacity:.85; }.scene-door { fill:#526f7d; stroke:#3a5664; stroke-width:1.2; }.scene-door-line { fill:none; stroke:#f0d4ad; stroke-width:2; stroke-linecap:round; }.scene-step { fill:#d3dde1; stroke:#a7b8c0; stroke-width:1.1; }.scene-cable { fill:none; stroke:#425d6b; stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; }.scene-meter { fill:#fbfdfe; stroke:#5e7683; stroke-width:1.4; }.scene-meter-line { fill:none; stroke:#627b87; stroke-width:1.3; }.scene-conduit { fill:none; stroke:#7d929c; stroke-width:2; stroke-linecap:round; }.scene-status-light { stroke:#3d8fbe; stroke-width:2.5; stroke-linecap:round; }.scene-tree { fill:none; stroke:#aab9c0; stroke-width:1.5; stroke-linecap:round; }
 .home-module strong { font-size:16px; }.home-module small { font-size:12px; }
 .source-module { min-height:118px; padding:4px 12px; border:none; background:transparent; align-items:center; text-align:center; }
 .source-module .module-top { width:100%; }.source-module .module-icon { width:54px; height:54px; }.source-module p { font-size:12px; }.source-module.is-active,.source-module.grid-active { background:transparent; border-color:transparent; }
@@ -70,7 +70,7 @@ html[dir="rtl"] .route-cable.right { right:auto; left:16%; transform:scaleX(-1);
   .route-cable { top:192px; width:38%; height:132px; }
   .route-cable.left { left:9%; }.route-cable.right { right:9%; }
   html[dir="rtl"] .route-cable.left { left:auto; right:9%; }.route-cable.right { right:auto; left:9%; }
-  .house-illustration { height:218px; }
+  .house-illustration { height:238px; }
   .home-module strong { font-size:14px; }.home-module small { font-size:11px; }
   .source-module { min-height:100px; padding:2px 5px; }
   .source-module .module-icon { width:44px; height:44px; }
