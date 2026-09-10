@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=20260910.5" />
+    <link rel="stylesheet" href="styles.css?v=20260910.6" />
   </head>
   <body>
     <main class="shell">
@@ -22,51 +22,70 @@
           <span class="brand-mark"><i></i><i></i><i></i></span>
           <span>Hart El Sett <em>Power</em></span>
         </a>
-        <div class="location">Lebanon</div>
+        <div class="header-tools">
+          <div class="location" data-i18n="lebanon">Lebanon</div>
+          <div class="settings-wrap">
+            <button class="settings-button" id="settings-button" type="button" aria-expanded="false" aria-controls="settings-panel" data-i18n-aria="settings">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.6 3.5h4.8l.7 2.1 2 .9 2-1 3.4 3.4-1 2 .9 2 .1 2.2-2.1.9-.9 2 1 2-3.4 3.4-2-1-2 .9-.7 2.1H9.6l-.7-2.1-2-.9-2 1L1.5 19l1-2-.9-2-.1-2.2 2.1-.9.9-2-1-2L6.9 4.4l2 1 2-.9.7-2.1Z"/><path d="M12 15.4a3.4 3.4 0 1 0 0-6.8 3.4 3.4 0 0 0 0 6.8Z"/></svg>
+              <span class="sr-only" data-i18n="settings">Settings</span>
+            </button>
+            <div class="settings-panel" id="settings-panel" hidden>
+              <p class="settings-title" data-i18n="settings">Settings</p>
+              <div class="setting-group">
+                <span data-i18n="language">Language</span>
+                <div class="language-options" role="group" aria-label="Language">
+                  <button type="button" class="language-option is-selected" data-language="en">English</button>
+                  <button type="button" class="language-option" data-language="ar">العربية</button>
+                </div>
+              </div>
+              <div class="setting-row is-disabled"><span data-i18n="notifications">Notifications</span><small data-i18n="comingSoon">Coming soon</small></div>
+            </div>
+          </div>
+        </div>
       </header>
 
       <section class="hero" id="overview">
         <div>
-          <p class="eyebrow">ELECTRICITY STATUS</p>
-          <h1>Power status</h1>
-          <p class="lede">Clear, current information for Hart El Sett.</p>
+          <p class="eyebrow" data-i18n="electricityStatus">ELECTRICITY STATUS</p>
+          <h1 data-i18n="powerStatus">Power status</h1>
+          <p class="lede" data-i18n="intro">Clear, current information for Hart El Sett.</p>
         </div>
         <div class="as-of">
-          <span>Source snapshot</span>
+          <span data-i18n="sourceSnapshot">Source snapshot</span>
           <strong id="snapshot-time">10 SEP 2026 · 17:46</strong>
-          <small>Local time · Asia/Beirut</small>
+          <small data-i18n="localTime">Local time · Asia/Beirut</small>
         </div>
       </section>
 
       <section class="now-grid" aria-label="Current power status">
         <article class="power-card edl-card" id="edl-card">
-          <div class="card-top"><span class="tag muted">EDL</span></div>
+          <div class="card-top"><svg class="source-logo edl-logo" viewBox="0 0 64 64" aria-label="EDL three-pole grid"><path d="M10 52V18M32 52V10M54 52V18M6 20h52M18 12h28M10 29h44M15 20v7m17-7v7m17-7v7"/><path d="M7 58h50"/></svg><span class="tag muted">EDL</span></div>
           <div>
-            <p class="card-label">National grid</p>
+            <p class="card-label" data-i18n="nationalGrid">National grid</p>
             <h2 id="edl-state">Offline</h2>
           </div>
           <div class="card-footer"><span class="status-mark dark" id="edl-mark">—</span><span id="edl-detail">Not supplying power</span></div>
         </article>
         <article class="power-card gen-card" id="gen-card">
-          <div class="card-top"><span class="tag active">GEN</span></div>
+          <div class="card-top"><svg class="source-logo gen-logo" viewBox="0 0 64 64" aria-label="Generator"><path d="M10 23h39v28H10zM49 31h7v12h-7M17 16v7m10-7v7m10-7v7M20 34h18M20 41h12"/><path d="M34 29l-6 9h6l-4 8 9-11h-6l5-6Z"/></svg><span class="tag active">GEN</span></div>
           <div>
-            <p class="card-label">Private generator</p>
+            <p class="card-label" data-i18n="privateGenerator">Private generator</p>
             <h2 id="gen-state">Running</h2>
           </div>
           <div class="card-footer"><span class="status-mark bright" id="gen-mark">✓</span><span id="gen-detail">Supplying power now</span></div>
         </article>
         <article class="condition-card">
-          <p class="eyebrow">AMBIENT CONDITIONS</p>
+          <p class="eyebrow" data-i18n="ambientConditions">AMBIENT CONDITIONS</p>
           <div class="conditions">
-            <div><span class="condition-symbol" id="temperature">34.3°</span><span>Temperature</span></div>
-            <div><span class="condition-symbol" id="humidity">95<span class="percent">%</span></span><span>Humidity</span></div>
+            <div><span class="condition-symbol" id="temperature">34.3°</span><span data-i18n="temperature">Temperature</span></div>
+            <div><span class="condition-symbol" id="humidity">95<span class="percent">%</span></span><span data-i18n="humidity">Humidity</span></div>
           </div>
-          <p class="condition-note">Recorded with the latest power status.</p>
+          <p class="condition-note" data-i18n="conditionsNote">Recorded with the latest power status.</p>
         </article>
       </section>
 
       <section class="active-source gen" id="active-source" aria-live="polite">
-        <p>POWER IS COMING FROM</p>
+        <p data-i18n="powerComingFrom">POWER IS COMING FROM</p>
         <strong id="active-source-name">GENERATOR</strong>
         <span id="active-source-symbol" aria-hidden="true">✓</span>
       </section>
@@ -114,6 +133,6 @@
         <p>Automatic data refresh enabled</p>
       </footer>
     </main>
-    <script src="app.js?v=20260910.4"></script>
+    <script src="app.js?v=20260910.5"></script>
   </body>
 </html>

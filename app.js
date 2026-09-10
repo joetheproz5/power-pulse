@@ -7,19 +7,37 @@ const fallback = {
   month: { label: "September 2026", edl: 35.8, gen: 173, none: 1 }
 };
 
+const translations = {
+  en: { settings:"Settings", language:"Language", notifications:"Notifications", comingSoon:"Coming soon", lebanon:"Lebanon", electricityStatus:"ELECTRICITY STATUS", powerStatus:"Power status", intro:"Clear, current information for Hart El Sett.", sourceSnapshot:"Source snapshot", localTime:"Local time · Asia/Beirut", nationalGrid:"National grid", privateGenerator:"Private generator", ambientConditions:"AMBIENT CONDITIONS", temperature:"Temperature", humidity:"Humidity", conditionsNote:"Recorded with the latest power status.", powerComingFrom:"POWER IS COMING FROM", online:"Online", offline:"Offline", running:"Running", stopped:"Stopped", supplying:"Supplying power now", notSupplying:"Not supplying power", generator:"GENERATOR", noPower:"NO POWER", currentSource:"Current source", edl:"EDL", noSupply:"No supply", eventCount:"events", generatorLabel:"Generator", noPowerLabel:"No power", trackedHours:"tracked hours" },
+  ar: { settings:"الإعدادات", language:"اللغة", notifications:"الإشعارات", comingSoon:"قريباً", lebanon:"لبنان", electricityStatus:"حالة الكهرباء", powerStatus:"حالة الكهرباء", intro:"معلومات واضحة ومحدّثة لمنطقة حرش الست.", sourceSnapshot:"آخر تحديث", localTime:"التوقيت المحلي · بيروت", nationalGrid:"كهرباء الدولة", privateGenerator:"المولد الخاص", ambientConditions:"الظروف الجوية", temperature:"الحرارة", humidity:"الرطوبة", conditionsNote:"تم تسجيلها مع آخر حالة للكهرباء.", powerComingFrom:"الكهرباء تأتي حالياً من", online:"متوفرة", offline:"غير متوفرة", running:"يعمل", stopped:"متوقف", supplying:"يوفّر الكهرباء الآن", notSupplying:"لا يوفّر الكهرباء", generator:"المولد", noPower:"لا كهرباء", currentSource:"المصدر الحالي", edl:"كهرباء الدولة", noSupply:"لا كهرباء", eventCount:"أحداث", generatorLabel:"المولد", noPowerLabel:"لا كهرباء", trackedHours:"ساعات مسجلة" }
+};
+let activeLanguage = localStorage.getItem("power-language") || "en";
+let currentData = null;
 const byId = id => document.getElementById(id);
+const t = key => translations[activeLanguage][key] || translations.en[key] || key;
 const seconds = time => { const [h,m,s] = time.split(":").map(Number); return h * 3600 + m * 60 + s; };
 const titleTime = time => time.slice(0,5);
-const stateName = (edl, gen) => edl ? "EDL" : gen ? "Generator" : "No supply";
+const stateName = (edl, gen) => edl ? t("edl") : gen ? t("generatorLabel") : t("noSupply");
+
+function applyLanguage(language) {
+  activeLanguage = language;
+  localStorage.setItem("power-language", language);
+  document.documentElement.lang = language;
+  document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
+  document.querySelectorAll("[data-i18n]").forEach(element => { element.textContent = t(element.dataset.i18n); });
+  document.querySelectorAll("[data-i18n-aria]").forEach(element => { element.setAttribute("aria-label", t(element.dataset.i18nAria)); });
+  document.querySelectorAll(".language-option").forEach(button => button.classList.toggle("is-selected", button.dataset.language === language));
+  if (currentData) render(currentData);
+}
 
 function setPower(data) {
   const latest = data.timeline.at(-1);
   const [, edl, gen] = latest;
-  const source = edl ? "EDL" : gen ? "GENERATOR" : "NO POWER";
-  byId("edl-state").textContent = edl ? "Online" : "Offline";
-  byId("gen-state").textContent = gen ? "Running" : "Stopped";
-  byId("edl-detail").textContent = edl ? "Supplying power now" : "Not supplying power";
-  byId("gen-detail").textContent = gen ? "Supplying power now" : "Not supplying power";
+  const source = edl ? t("edl") : gen ? t("generator") : t("noPower");
+  byId("edl-state").textContent = edl ? t("online") : t("offline");
+  byId("gen-state").textContent = gen ? t("running") : t("stopped");
+  byId("edl-detail").textContent = edl ? t("supplying") : t("notSupplying");
+  byId("gen-detail").textContent = gen ? t("supplying") : t("notSupplying");
   byId("edl-card").classList.toggle("is-active", Boolean(edl));
   byId("gen-card").classList.toggle("is-active", Boolean(gen));
   byId("edl-mark").textContent = edl ? "✓" : "—";
@@ -28,10 +46,11 @@ function setPower(data) {
   byId("gen-mark").className = `status-mark ${gen ? "bright" : "dark"}`;
   byId("active-source").className = `active-source ${edl ? "edl" : gen ? "gen" : "none"}`;
   byId("active-source-name").textContent = source;
-  byId("active-source-symbol").textContent = source === "NO POWER" ? "—" : "✓";
+  byId("active-source-symbol").textContent = !edl && !gen ? "—" : "✓";
   byId("temperature").textContent = `${data.temperature}°`;
   byId("humidity").innerHTML = `${data.humidity}<span class="percent">%</span>`;
-  byId("snapshot-time").textContent = new Intl.DateTimeFormat("en-GB", { day:"2-digit", month:"short", year:"numeric", hour:"2-digit", minute:"2-digit", hour12:false, timeZone:"Asia/Beirut" }).format(new Date(data.generatedAt)).replace(",", " ·").toUpperCase();
+  const locale = activeLanguage === "ar" ? "ar-LB" : "en-GB";
+  byId("snapshot-time").textContent = new Intl.DateTimeFormat(locale, { day:"2-digit", month:"short", year:"numeric", hour:"2-digit", minute:"2-digit", hour12:false, timeZone:"Asia/Beirut" }).format(new Date(data.generatedAt)).replace(",", " ·").toUpperCase();
 }
 
 function addSegment(track, className, start, end) {
@@ -60,7 +79,7 @@ function renderTimeline(data) {
     if (rows[index][1] !== edl || rows[index][2] !== gen) break;
     start = rows[index][0];
   }
-  byId("timeline-caption").textContent = `Current source · ${stateName(edl, gen)}`;
+  byId("timeline-caption").textContent = `${t("currentSource")} · ${stateName(edl, gen)}`;
   byId("timeline-range").textContent = `${titleTime(start)} — ${data.sourceTime.slice(0,5)}`;
 }
 
@@ -74,21 +93,35 @@ function renderLogs(data) {
     item.innerHTML = `<time>${time}</time><span class="event-marker"></span><p><strong>${log.replace(/ Till:.*/, "")}</strong><small>${log.includes(" Till:") ? "Until " + log.split(" Till:")[1] : "Source event"}</small></p>`;
     list.append(item);
   });
-  document.querySelector(".event-count").textContent = `${data.logs.length} events`;
+  document.querySelector(".event-count").textContent = `${data.logs.length} ${t("eventCount")}`;
 }
 
 function renderMonth(data) {
   const values = data.month, total = values.edl + values.gen + values.none;
   byId("tracked-hours").textContent = total.toFixed(1);
-  byId("month-key").innerHTML = [["gen-dot","Generator",values.gen],["edl-dot","EDL",values.edl],["none-dot","No power",values.none]].map(([dot,label,value]) => `<li><span class="key-dot ${dot}"></span><div><b>${label}</b><small>${value.toFixed(1)} h · ${(value / total * 100).toFixed(1)}%</small></div></li>`).join("");
+  byId("month-key").innerHTML = [["gen-dot",t("generatorLabel"),values.gen],["edl-dot",t("edl"),values.edl],["none-dot",t("noPowerLabel"),values.none]].map(([dot,label,value]) => `<li><span class="key-dot ${dot}"></span><div><b>${label}</b><small>${value.toFixed(1)} h · ${(value / total * 100).toFixed(1)}%</small></div></li>`).join("");
   document.querySelector(".month-panel .eyebrow").textContent = values.label.toUpperCase();
   document.querySelector(".month-note").textContent = `Figures are calculated from the source’s ${values.label} statistics.`;
 }
 
-function render(data) { setPower(data); renderTimeline(data); renderLogs(data); renderMonth(data); }
+function render(data) { currentData = data; setPower(data); renderTimeline(data); renderLogs(data); renderMonth(data); }
 async function load() { try { const response = await fetch(`data/status.json?cache=${Date.now()}`); if (!response.ok) throw new Error("No fresh data"); return await response.json(); } catch { return fallback; } }
+applyLanguage(activeLanguage);
 load().then(render);
 setInterval(() => load().then(render), 30000);
+
+const settingsButton = byId("settings-button");
+const settingsPanel = byId("settings-panel");
+settingsButton.addEventListener("click", () => {
+  const isOpen = !settingsPanel.hidden;
+  settingsPanel.hidden = isOpen;
+  settingsButton.setAttribute("aria-expanded", String(!isOpen));
+});
+document.querySelectorAll(".language-option").forEach(button => button.addEventListener("click", () => {
+  applyLanguage(button.dataset.language);
+  settingsPanel.hidden = true;
+  settingsButton.setAttribute("aria-expanded", "false");
+}));
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => navigator.serviceWorker.register("service-worker.js"));
