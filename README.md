@@ -2,7 +2,7 @@
 
 A clean, responsive one-page electricity-status dashboard for Hart El Sett, built from the public status data at `info.ghawi.me`.
 
-Open `index.html` in a browser to view it. On GitHub Pages, `data/status.json` is refreshed by GitHub Actions every five minutes (the shortest reliable scheduled interval offered by GitHub Actions). The page itself rechecks that JSON every 30 seconds.
+Open `index.html` in a browser to view it. The page pulls the live source every 10 seconds (through a CORS proxy chain, since `info.ghawi.me` sends no CORS headers), falling back to a GitHub Pages snapshot of `data/status.json` that GitHub Actions refreshes every five minutes.
 
 ## Install it as an app
 

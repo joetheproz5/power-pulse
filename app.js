@@ -1,5 +1,61 @@
 const fallback={generatedAt:"2026-09-10T17:56:01+03:00",sourceTime:"17:56:01",temperature:"34.3",humidity:"95.0",timeline:[["00:00:02",0,1],["00:08:04",0,0],["00:09:03",0,1],["08:15:26",1,1],["08:16:03",1,0],["09:59:53",0,0],["10:01:03",0,1],["17:56:01",0,1]],logs:["GEN turned ON: 12:00 AM Till: 08:15 AM (8H15M)","EDL turned ON: 08:15 AM Till: 09:59 AM (1H44M)","GEN turned OFF: 09:59 AM Till: 10:01 AM (2M)","GEN turned ON: 10:01 AM Till: 05:56 PM (7H55M)"],month:{label:"September 2026",edl:35.8,gen:173,none:1}};
-const copy={en:{settings:"Settings",language:"Language",notifications:"Notifications",comingSoon:"Coming soon",connected:"Connected",liveStatus:"LIVE STATUS",powerMonitor:"Power Monitor",lastUpdate:"Last update",supplyingNow:"SUPPLYING YOUR HOME NOW",powerRoute:"Power route",currentRoute:"Current route",nationalGrid:"National grid",privateGenerator:"Private generator",homeSupply:"Home supply",environment:"Environment",temperature:"Temperature",humidity:"Humidity",systemState:"System state",monthToDate:"Month to date",trackedHours:"tracked hours",today:"TODAY / WED 10 SEP",powerHistory:"Power history",generator:"Generator",noPower:"No power",eventLog:"EVENT LOG",todaysActivity:"Today’s activity",footerTitle:"HART EL SETT · POWER MONITOR",footerRefresh:"Automatic data refresh enabled",online:"Online",offline:"Offline",running:"Running",stopped:"Stopped",generatorActive:"Generator active",gridActive:"EDL active",noSupply:"No power available",gridUnavailable:"EDL is unavailable",generatorUnavailable:"Generator is unavailable",generatorNow:"Generator is supplying power now",gridNow:"EDL is supplying power now",events:"events",edl:"EDL"},ar:{settings:"الإعدادات",language:"اللغة",notifications:"الإشعارات",comingSoon:"قريباً",connected:"متصل",liveStatus:"الحالة المباشرة",powerMonitor:"مراقبة الكهرباء",lastUpdate:"آخر تحديث",supplyingNow:"الكهرباء تصل إلى المنزل الآن من",powerRoute:"مسار الكهرباء",currentRoute:"المسار الحالي",nationalGrid:"كهرباء الدولة",privateGenerator:"المولد الخاص",homeSupply:"كهرباء المنزل",environment:"البيئة",temperature:"الحرارة",humidity:"الرطوبة",systemState:"حالة النظام",monthToDate:"إجمالي الشهر",trackedHours:"ساعات مسجلة",today:"اليوم / الأربعاء ١٠ أيلول",powerHistory:"سجل الكهرباء",generator:"المولد",noPower:"لا كهرباء",eventLog:"سجل الأحداث",todaysActivity:"نشاط اليوم",footerTitle:"حرش الست · مراقبة الكهرباء",footerRefresh:"تحديث البيانات تلقائياً",online:"متوفرة",offline:"غير متوفرة",running:"يعمل",stopped:"متوقف",generatorActive:"المولد يعمل",gridActive:"كهرباء الدولة متوفرة",noSupply:"لا كهرباء متوفرة",gridUnavailable:"كهرباء الدولة غير متوفرة",generatorUnavailable:"المولد متوقف",generatorNow:"المولد يوفّر الكهرباء الآن",gridNow:"كهرباء الدولة توفّر الكهرباء الآن",events:"أحداث",edl:"كهرباء الدولة"}};
+const SOURCE="https://info.ghawi.me/";
+const REFRESH_MS=10000;
+const PROXY=[
+  {build:url=>`https://r.jina.ai/${url}`,headers:{"x-return-format":"html"}},
+  {build:url=>`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,headers:{}},
+  {build:url=>url,headers:{}}
+];
+const bestProxy={};
+const unwrap=text=>text.replace(/^\s*<html><head><\/head><body>/i,"").replace(/<\/body><\/html>\s*$/i,"");
+async function fetchText(url){
+  const start=bestProxy[url]||0;
+  for(let i=0;i<PROXY.length;i++){
+    const entry=PROXY[(start+i)%PROXY.length];
+    try{
+      const response=await fetch(entry.build(url),{cache:"no-store",headers:entry.headers,signal:AbortSignal.timeout(9000)});
+      if(!response.ok)throw Error(`HTTP ${response.status}`);
+      const text=unwrap(await response.text());
+      if(!text.trim())throw Error("empty body");
+      bestProxy[url]=PROXY.indexOf(entry);
+      return text;
+    }catch{/* try the next proxy */}
+  }
+  throw Error(`unreachable: ${url}`);
+}
+const findIn=page=>pattern=>page.match(pattern)?.[1]?.trim();
+function buildPayload(page,chart){
+  const find=findIn(page);
+  const logs=[...page.matchAll(/<font[^>]*>(.*?)<\/font>/gis)].map(m=>m[1].replace(/<[^>]+>/g,"").replace(/&nbsp;/g," ").trim()).filter(line=>/turned (ON|OFF)/i.test(line));
+  const entries=chart.rows.map(row=>[row.c[0].v.join(":"),Number(row.c[1].v),Number(row.c[2].v)]);
+  const monthLabel=find(/<dtitle>([A-Za-z]+\s+\d{4})\s+statistics<\/dtitle>/i)||"Current month";
+  const pie=[...page.matchAll(/y:\s*([\d.]+),\s*name:\s*"(EDL|GEN|No Power)"/g)].reduce((all,[,value,name])=>({...all,[name]:Number(value)}),{});
+  return{
+    generatedAt:new Date().toISOString(),
+    sourceTime:find(/Updated:\s*([\d:]+)/i)||entries.at(-1)?.[0]||"—",
+    temperature:find(/Temperature:\s*([\d.]+)C/i)||"—",
+    humidity:find(/Humidity:\s*([\d.]+)%/i)||"—",
+    timeline:entries,logs,
+    month:{label:monthLabel,edl:pie.EDL||0,gen:pie.GEN||0,none:pie["No Power"]||0}
+  };
+}
+async function loadLive(){
+  const[page,chart]=await Promise.all([fetchText(SOURCE),fetchText(`${SOURCE}chart_summary.php`)]);
+  const payload=buildPayload(page,JSON.parse(chart));
+  if(!payload.timeline.length||payload.sourceTime==="—")throw Error("bad payload");
+  return payload;
+}
+async function loadSnapshot(){
+  const response=await fetch(`data/status.json?cache=${Date.now()}`,{cache:"no-store"});
+  if(!response.ok)throw Error(`HTTP ${response.status}`);
+  return response.json();
+}
+async function load(){
+  try{return await loadLive()}catch{
+    try{return await loadSnapshot()}catch{return fallback}
+  }
+}
+const copy={en:{settings:"Settings",language:"Language",notifications:"Notifications",comingSoon:"Coming soon",connected:"Connected",liveStatus:"LIVE STATUS",powerMonitor:"Power Monitor",lastUpdate:"Last update",supplyingNow:"SUPPLYING YOUR HOME NOW",powerRoute:"Power route",currentRoute:"Current route",nationalGrid:"National grid",privateGenerator:"Private generator",homeSupply:"Home supply",environment:"Environment",temperature:"Temperature",humidity:"Humidity",systemState:"System state",monthToDate:"Month to date",trackedHours:"tracked hours",today:"TODAY / WED 10 SEP",powerHistory:"Power history",generator:"Generator",noPower:"No power",eventLog:"EVENT LOG",todaysActivity:"Today’s activity",footerTitle:"HART EL SETT · POWER MONITOR",footerRefresh:"Live data · updates every 10 seconds",online:"Online",offline:"Offline",running:"Running",stopped:"Stopped",generatorActive:"Generator active",gridActive:"EDL active",noSupply:"No power available",gridUnavailable:"EDL is unavailable",generatorUnavailable:"Generator is unavailable",generatorNow:"Generator is supplying power now",gridNow:"EDL is supplying power now",events:"events",edl:"EDL"},ar:{settings:"الإعدادات",language:"اللغة",notifications:"الإشعارات",comingSoon:"قريباً",connected:"متصل",liveStatus:"الحالة المباشرة",powerMonitor:"مراقبة الكهرباء",lastUpdate:"آخر تحديث",supplyingNow:"الكهرباء تصل إلى المنزل الآن من",powerRoute:"مسار الكهرباء",currentRoute:"المسار الحالي",nationalGrid:"كهرباء الدولة",privateGenerator:"المولد الخاص",homeSupply:"كهرباء المنزل",environment:"البيئة",temperature:"الحرارة",humidity:"الرطوبة",systemState:"حالة النظام",monthToDate:"إجمالي الشهر",trackedHours:"ساعات مسجلة",today:"اليوم / الأربعاء ١٠ أيلول",powerHistory:"سجل الكهرباء",generator:"المولد",noPower:"لا كهرباء",eventLog:"سجل الأحداث",todaysActivity:"نشاط اليوم",footerTitle:"حرش الست · مراقبة الكهرباء",footerRefresh:"بيانات مباشرة · تحديث كل ١٠ ثوانٍ",online:"متوفرة",offline:"غير متوفرة",running:"يعمل",stopped:"متوقف",generatorActive:"المولد يعمل",gridActive:"كهرباء الدولة متوفرة",noSupply:"لا كهرباء متوفرة",gridUnavailable:"كهرباء الدولة غير متوفرة",generatorUnavailable:"المولد متوقف",generatorNow:"المولد يوفّر الكهرباء الآن",gridNow:"كهرباء الدولة توفّر الكهرباء الآن",events:"أحداث",edl:"كهرباء الدولة"}};
 let language=localStorage.getItem("power-language")||"en",currentData=null;
 const $=id=>document.getElementById(id),t=key=>copy[language][key]||copy.en[key]||key;
 const seconds=time=>{const[h,m,s]=time.split(":").map(Number);return h*3600+m*60+s};
@@ -11,7 +67,9 @@ function renderHistory(data){["edl-track","gen-track","none-track"].forEach(id=>
 function renderMonth(data){const v=data.month,total=v.edl+v.gen+v.none;$("tracked-hours").textContent=total.toFixed(1);$("month-key").innerHTML=[[t("generator"),v.gen],[t("edl"),v.edl],[t("noPower"),v.none]].map(([label,value])=>`<div class="breakdown-item"><b>${label}</b><small>${value.toFixed(1)} h · ${(value/total*100).toFixed(0)}%</small></div>`).join("")}
 function typeFor(log){return log.startsWith("EDL")?"edl":log.includes("OFF")?"none":"gen"}function renderEvents(data){$("event-list").replaceChildren();data.logs.slice(-6).forEach(log=>{const match=log.match(/(?:ON|OFF):\s*(\d{1,2}:\d{2}\s*[AP]M)/i),time=match?new Date(`2000-01-01 ${match[1]}`).toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",hour12:false}):"—",li=document.createElement("li");li.className=`event ${typeFor(log)}`;li.innerHTML=`<time>${time}</time><p><strong>${log.replace(/ Till:.*/,"")}</strong><small>${log.includes(" Till:")?"Until "+log.split(" Till:")[1]:""}</small></p>`;$("event-list").append(li)});$("event-count").textContent=`${data.logs.length} ${t("events")}`}
 function render(data){currentData=data;setState(data);renderHistory(data);renderMonth(data);renderEvents(data)}
-async function load(){try{const r=await fetch(`data/status.json?cache=${Date.now()}`);if(!r.ok)throw Error();return await r.json()}catch{return fallback}}
-applyLanguage(language);load().then(render);setInterval(()=>load().then(render),30000);
+let refreshing=false;
+async function refresh(){if(refreshing)return;refreshing=true;try{render(await load())}finally{refreshing=false}}
+applyLanguage(language);refresh();
+setInterval(refresh,REFRESH_MS);
 const settings=$("settings-button"),panel=$("settings-panel");settings.addEventListener("click",()=>{const open=!panel.hidden;panel.hidden=open;settings.setAttribute("aria-expanded",String(!open))});document.querySelectorAll(".language-option").forEach(button=>button.addEventListener("click",()=>{applyLanguage(button.dataset.language);panel.hidden=true;settings.setAttribute("aria-expanded","false")}));
 if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("service-worker.js"));
