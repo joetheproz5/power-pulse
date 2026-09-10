@@ -8,6 +8,10 @@ Open `index.html` in a browser to view it. On GitHub Pages, `data/status.json` i
 
 The site includes a web app manifest and service worker. On Android Chrome/Edge, open the site menu and choose **Install app**. On iPhone Safari, use **Share** then **Add to Home Screen**.
 
+## Visual asset
+
+The home scene uses a bundled architectural render by Maverick Frame via Unsplash, provided under the Unsplash License: https://unsplash.com/photos/rXq2vzsuLRg
+
 ## Genuine real-time updates
 
 The source data endpoint does not allow cross-origin browser requests, so GitHub Pages cannot safely fetch it directly. For updates within seconds, deploy the included fetch logic as a small server-side proxy (for example, a Cloudflare Worker) and have the page poll that proxy; a GitHub Pages-only deployment cannot meet that latency guarantee.

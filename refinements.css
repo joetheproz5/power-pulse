@@ -81,3 +81,59 @@ html[dir="rtl"] .route-cable.right { right:auto; left:16%; transform:scaleX(-1);
   .environment-values > div + div { padding-inline-start: 23px; }
   .environment-values strong { font-size:36px; }
 }
+
+/* The route is intentionally built as a product scene: one real architectural
+   render, two physical feeds, and no decorative dashboard geometry. */
+.route-panel { border-radius:12px; }
+.route-panel::after { display:none; }
+.route-layout { min-height:492px; grid-template-rows:326px 118px; gap:12px 104px; padding:0 13%; }
+#home-module { width:min(520px,100%); gap:0; }
+.house-illustration { display:none; }
+.home-render { position:relative; width:min(500px,100%); height:268px; overflow:hidden; background:#edf1f2; box-shadow:0 14px 30px rgba(34,53,63,.12); }
+.home-render::after { content:""; position:absolute; inset:0; pointer-events:none; background:linear-gradient(180deg,rgba(255,255,255,.02) 42%,rgba(20,29,34,.12)); }
+.home-render img { display:block; width:100%; height:100%; object-fit:cover; object-position:50% 66%; filter:saturate(.84) contrast(.98); }
+.home-meter { position:absolute; z-index:1; right:16px; bottom:14px; display:flex; align-items:center; gap:7px; padding:7px 9px; background:rgba(255,255,255,.94); color:#23323b; border:1px solid rgba(32,47,56,.2); font-size:9px; font-weight:800; letter-spacing:.11em; box-shadow:0 5px 12px rgba(16,27,34,.12); }
+.home-meter i { width:6px; height:6px; background:#c96761; border-radius:0; }
+.home-meter.grid i { background:#287fa9; }.home-meter.off i { background:#9a6965; }
+.home-caption { display:flex; align-items:baseline; justify-content:center; gap:9px; margin-top:8px; }
+.home-module strong { font-size:17px; letter-spacing:-.02em; }
+.home-module small { color:#b7534e; font-size:12px; font-weight:650; }
+.route-cable { top:248px; height:161px; width:35%; }
+.route-cable.left { left:15%; }.route-cable.right { right:15%; }
+html[dir="rtl"] .route-cable.left { left:auto; right:15%; }
+html[dir="rtl"] .route-cable.right { right:auto; left:15%; }
+.source-module { min-height:112px; padding:0 12px 4px; justify-content:flex-end; }
+.source-module::before { width:94px; height:2px; bottom:35px; border-radius:0; background:#d8e1e5; opacity:1; }
+.source-module .module-icon { width:61px; height:61px; }
+.source-module p { margin-top:2px; font-size:12px; font-weight:700; }
+.source-module .module-top { margin-top:2px; }
+.source-module .module-state { font-size:9px; font-weight:800; letter-spacing:.1em; }
+.source-module.edl-theme.is-active .module-icon { stroke:#287fa9; }
+.source-module.gen-theme.is-active .module-icon { stroke:#bd5b55; }
+.route-cable .cable-shadow { stroke-width:9; }
+.route-cable .cable-jacket { stroke-width:7; }
+.route-cable .cable-core { stroke-width:1.5; }
+.route-cable .flow-band { stroke-width:7; stroke-dasharray:12 16; }
+.route-cable .current { stroke-width:3; stroke-dasharray:8 12; }
+.route-cable.is-active .current { animation:current-flow .62s linear infinite; }
+.route-cable.right.is-active .current { animation-name:current-flow-reverse; }
+@keyframes current-flow { to { stroke-dashoffset:-80; } }
+@keyframes current-flow-reverse { to { stroke-dashoffset:80; } }
+@media (prefers-reduced-motion:reduce) { .route-cable.is-active .current { animation:none; } }
+
+@media (max-width:760px) {
+  .route-layout { min-height:376px; grid-template-rows:245px 96px; gap:7px 24px; padding:0 3%; }
+  #home-module { width:min(360px,100%); }
+  .home-render { height:202px; }
+  .home-render img { object-position:50% 67%; }
+  .home-meter { right:10px; bottom:10px; padding:5px 6px; font-size:8px; }
+  .home-caption { margin-top:6px; gap:7px; }
+  .home-module strong { font-size:14px; }.home-module small { font-size:11px; }
+  .route-cable { top:184px; height:128px; width:39%; }
+  .route-cable.left { left:8%; }.route-cable.right { right:8%; }
+  html[dir="rtl"] .route-cable.left { left:auto; right:8%; } html[dir="rtl"] .route-cable.right { right:auto; left:8%; }
+  .source-module { min-height:94px; padding-bottom:2px; }
+  .source-module::before { width:70px; bottom:29px; }
+  .source-module .module-icon { width:51px; height:51px; }
+  .source-module p { font-size:11px; }.source-module .module-state { font-size:8px; }
+}
