@@ -1,5 +1,5 @@
-const CACHE = "hart-el-sett-power-v20";
-const APP_FILES = ["./", "./index.html", "./styles.css?v=20260910.8", "./refinements.css?v=20260910.12", "./light.css?v=20260910.8", "./app.js?v=20260910.11", "./manifest.webmanifest", "./icon.svg"];
+const CACHE = "hart-el-sett-power-v21";
+const APP_FILES = ["./", "./index.html", "./styles.css?v=20260910.8", "./refinements.css?v=20260910.13", "./light.css?v=20260910.9", "./app.js?v=20260910.11", "./manifest.webmanifest", "./icon.svg"];
 
 self.addEventListener("install", event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(APP_FILES)).then(() => self.skipWaiting())));
 self.addEventListener("activate", event => event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE).map(key => caches.delete(key)))).then(() => self.clients.claim())));
