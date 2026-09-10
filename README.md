@@ -1,16 +1,12 @@
 # PowerPulse
 
-A responsive one-page electricity-status dashboard for Hart El Sett, built from the public status data at `info.ghawi.me`.
+A clean, responsive one-page electricity-status dashboard for Hart El Sett, built from the public status data at `info.ghawi.me`.
 
 Open `index.html` in a browser to view it. On GitHub Pages, `data/status.json` is refreshed by GitHub Actions every five minutes (the shortest reliable scheduled interval offered by GitHub Actions). The page itself rechecks that JSON every 30 seconds.
 
 ## Install it as an app
 
 The site includes a web app manifest and service worker. On Android Chrome/Edge, open the site menu and choose **Install app**. On iPhone Safari, use **Share** then **Add to Home Screen**.
-
-## Visual asset
-
-The interactive home scene uses the bundled **House | KivLoft** model by Quaternius via Poly Pizza, dedicated to the public domain under CC0: https://poly.pizza/m/vZ1CLbWmSx
 
 ## Genuine real-time updates
 
