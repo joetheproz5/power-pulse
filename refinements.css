@@ -27,16 +27,21 @@
 
 .route-layout { grid-template-columns: 1fr 1.12fr .8fr 1.12fr 1fr; }
 .route-cable { width: 100%; height: 90px; overflow: visible; }
-.route-cable .cable { fill: none; stroke: #36423c; stroke-width: 2; }
-.route-cable .current { fill: none; stroke-width: 3.5; stroke-linecap: round; stroke-dasharray: 7 13; opacity: 0; }
+.route-cable path { fill: none; stroke-linecap: round; }
+.route-cable .cable-shadow { stroke: rgba(18,31,38,.18); stroke-width: 8; transform: translateY(1px); }
+.route-cable .cable-jacket { stroke: #53615d; stroke-width: 6; }
+.route-cable .cable-core { stroke: #273631; stroke-width: 2; }
+.route-cable .current { stroke-width: 2.5; stroke-dasharray: 3 19; opacity: 0; }
 .route-cable.left .current { stroke: var(--grid-bright); }
 .route-cable.right .current { stroke: var(--gen-bright); }
-.route-cable.is-active .current { opacity: 1; animation: cable-flow 1.3s linear infinite; }
+.route-cable.is-active .current { opacity: 1; animation: cable-flow 1.55s linear infinite; }
 .route-cable.right.is-active .current { animation-name: cable-flow-reverse; }
-.route-cable.left.is-active .cable { stroke: #4e9fca; }
-.route-cable.right.is-active .cable { stroke: #b85956; }
-@keyframes cable-flow { to { stroke-dashoffset: -40; } }
-@keyframes cable-flow-reverse { to { stroke-dashoffset: 40; } }
+.route-cable.left.is-active .cable-jacket { stroke: #4e9fca; }
+.route-cable.left.is-active .cable-core { stroke: #1e596f; }
+.route-cable.right.is-active .cable-jacket { stroke: #b85956; }
+.route-cable.right.is-active .cable-core { stroke: #762f2c; }
+@keyframes cable-flow { to { stroke-dashoffset: -44; } }
+@keyframes cable-flow-reverse { to { stroke-dashoffset: 44; } }
 
 .environment-card { min-width: 0; }
 .environment-values { grid-template-columns: 1fr 1fr; gap: 0; padding-top: 31px; }
