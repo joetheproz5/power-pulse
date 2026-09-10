@@ -1,7 +1,6 @@
 import { buildPushPayload } from "@block65/webcrypto-web-push";
 
 const SOURCE_URL = "https://info.ghawi.me/chart_summary.php";
-const SITE_ORIGIN = "https://joetheproz5.github.io";
 const SUBSCRIPTION_PREFIX = "subscription:";
 const SOURCE_STATE_KEY = "state:source";
 const CHECKED_AT_KEY = "state:checked-at";
@@ -31,12 +30,8 @@ function languageOf(value) {
 }
 
 function headersFor(request) {
-  const origin = request.headers.get("Origin") || "";
-  const local = /^http:\/\/localhost(?::\d+)?$/i.test(origin);
-  // Installed iOS web apps can present their own origin as "null" for a cross-origin fetch.
-  const allowed = origin === SITE_ORIGIN || origin === "null" || local;
   return {
-    ...(allowed ? { "Access-Control-Allow-Origin": origin, Vary: "Origin" } : {}),
+    "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, X-PowerPulse-Token",
     "Cache-Control": "no-store"
@@ -51,8 +46,7 @@ function response(request, value, status = 200) {
 }
 
 function isAllowedBrowserRequest(request) {
-  const origin = request.headers.get("Origin");
-  return origin === SITE_ORIGIN || origin === "null" || /^http:\/\/localhost(?::\d+)?$/i.test(origin || "");
+  return request.headers.get("Origin") !== null;
 }
 
 function validSubscription(subscription) {
