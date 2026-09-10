@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=20260910.6" />
+    <link rel="stylesheet" href="styles.css?v=20260910.7" />
   </head>
   <body>
     <main class="shell">
@@ -91,8 +91,8 @@
       </section>
 
       <section class="section-head timeline-head">
-        <div><p class="eyebrow">TODAY / WED 10 SEP</p><h2>Power timeline</h2></div>
-        <div class="legend"><span><i class="legend-edl"></i>EDL</span><span><i class="legend-gen"></i>Generator</span><span><i class="legend-none"></i>No supply</span></div>
+        <div><p class="eyebrow" data-i18n="today">TODAY / WED 10 SEP</p><h2 data-i18n="powerTimeline">Power timeline</h2></div>
+        <div class="legend"><span><i class="legend-edl"></i>EDL</span><span><i class="legend-gen"></i><b data-i18n="generatorLabel">Generator</b></span><span><i class="legend-none"></i><b data-i18n="noSupply">No supply</b></span></div>
       </section>
 
       <section class="timeline-card" aria-label="Power timeline for today">
@@ -114,25 +114,25 @@
 
       <section class="lower-grid">
         <section class="log-panel">
-          <div class="section-head compact"><div><p class="eyebrow">EVENT STREAM</p><h2>Today’s activity</h2></div><span class="event-count">7 events</span></div>
+          <div class="section-head compact"><div><p class="eyebrow" data-i18n="eventStream">EVENT STREAM</p><h2 data-i18n="todaysActivity">Today’s activity</h2></div><span class="event-count">7 events</span></div>
           <ol class="event-list" id="event-list"></ol>
         </section>
 
         <section class="month-panel">
-          <div class="section-head compact"><div><p class="eyebrow">SEPTEMBER 2026</p><h2>Month to date</h2></div></div>
+          <div class="section-head compact"><div><p class="eyebrow" id="month-label">SEPTEMBER 2026</p><h2 data-i18n="monthToDate">Month to date</h2></div></div>
           <div class="month-summary">
-            <div class="summary-total"><strong id="tracked-hours">209.7</strong><span>tracked hours</span></div>
+            <div class="summary-total"><strong id="tracked-hours">209.7</strong><span data-i18n="trackedHours">tracked hours</span></div>
             <ul class="month-key" id="month-key"></ul>
           </div>
-          <p class="month-note">Figures are calculated from the source’s September 2026 statistics.</p>
+          <p class="month-note" id="month-note">Figures are calculated from the source’s September 2026 statistics.</p>
         </section>
       </section>
 
       <footer>
-        <p>HART EL SETT · POWER STATUS MONITOR</p>
-        <p>Automatic data refresh enabled</p>
+        <p data-i18n="footerTitle">HART EL SETT · POWER STATUS MONITOR</p>
+        <p data-i18n="footerRefresh">Automatic data refresh enabled</p>
       </footer>
     </main>
-    <script src="app.js?v=20260910.5"></script>
+    <script src="app.js?v=20260910.6"></script>
   </body>
 </html>

@@ -8,8 +8,8 @@ const fallback = {
 };
 
 const translations = {
-  en: { settings:"Settings", language:"Language", notifications:"Notifications", comingSoon:"Coming soon", lebanon:"Lebanon", electricityStatus:"ELECTRICITY STATUS", powerStatus:"Power status", intro:"Clear, current information for Hart El Sett.", sourceSnapshot:"Source snapshot", localTime:"Local time · Asia/Beirut", nationalGrid:"National grid", privateGenerator:"Private generator", ambientConditions:"AMBIENT CONDITIONS", temperature:"Temperature", humidity:"Humidity", conditionsNote:"Recorded with the latest power status.", powerComingFrom:"POWER IS COMING FROM", online:"Online", offline:"Offline", running:"Running", stopped:"Stopped", supplying:"Supplying power now", notSupplying:"Not supplying power", generator:"GENERATOR", noPower:"NO POWER", currentSource:"Current source", edl:"EDL", noSupply:"No supply", eventCount:"events", generatorLabel:"Generator", noPowerLabel:"No power", trackedHours:"tracked hours" },
-  ar: { settings:"الإعدادات", language:"اللغة", notifications:"الإشعارات", comingSoon:"قريباً", lebanon:"لبنان", electricityStatus:"حالة الكهرباء", powerStatus:"حالة الكهرباء", intro:"معلومات واضحة ومحدّثة لمنطقة حرش الست.", sourceSnapshot:"آخر تحديث", localTime:"التوقيت المحلي · بيروت", nationalGrid:"كهرباء الدولة", privateGenerator:"المولد الخاص", ambientConditions:"الظروف الجوية", temperature:"الحرارة", humidity:"الرطوبة", conditionsNote:"تم تسجيلها مع آخر حالة للكهرباء.", powerComingFrom:"الكهرباء تأتي حالياً من", online:"متوفرة", offline:"غير متوفرة", running:"يعمل", stopped:"متوقف", supplying:"يوفّر الكهرباء الآن", notSupplying:"لا يوفّر الكهرباء", generator:"المولد", noPower:"لا كهرباء", currentSource:"المصدر الحالي", edl:"كهرباء الدولة", noSupply:"لا كهرباء", eventCount:"أحداث", generatorLabel:"المولد", noPowerLabel:"لا كهرباء", trackedHours:"ساعات مسجلة" }
+  en: { settings:"Settings", language:"Language", notifications:"Notifications", comingSoon:"Coming soon", lebanon:"Lebanon", electricityStatus:"ELECTRICITY STATUS", powerStatus:"Power status", intro:"Clear, current information for Hart El Sett.", sourceSnapshot:"Source snapshot", localTime:"Local time · Asia/Beirut", nationalGrid:"National grid", privateGenerator:"Private generator", ambientConditions:"AMBIENT CONDITIONS", temperature:"Temperature", humidity:"Humidity", conditionsNote:"Recorded with the latest power status.", powerComingFrom:"POWER IS COMING FROM", online:"Online", offline:"Offline", running:"Running", stopped:"Stopped", supplying:"Supplying power now", notSupplying:"Not supplying power", generator:"GENERATOR", noPower:"NO POWER", currentSource:"Current source", edl:"EDL", noSupply:"No supply", eventCount:"events", generatorLabel:"Generator", noPowerLabel:"No power", trackedHours:"tracked hours", today:"TODAY / WED 10 SEP", powerTimeline:"Power timeline", eventStream:"EVENT STREAM", todaysActivity:"Today’s activity", monthToDate:"Month to date", footerTitle:"HART EL SETT · POWER STATUS MONITOR", footerRefresh:"Automatic data refresh enabled" },
+  ar: { settings:"الإعدادات", language:"اللغة", notifications:"الإشعارات", comingSoon:"قريباً", lebanon:"لبنان", electricityStatus:"حالة الكهرباء", powerStatus:"حالة الكهرباء", intro:"معلومات واضحة ومحدّثة لمنطقة حرش الست.", sourceSnapshot:"آخر تحديث", localTime:"التوقيت المحلي · بيروت", nationalGrid:"كهرباء الدولة", privateGenerator:"المولد الخاص", ambientConditions:"الظروف الجوية", temperature:"الحرارة", humidity:"الرطوبة", conditionsNote:"تم تسجيلها مع آخر حالة للكهرباء.", powerComingFrom:"الكهرباء تأتي حالياً من", online:"متوفرة", offline:"غير متوفرة", running:"يعمل", stopped:"متوقف", supplying:"يوفّر الكهرباء الآن", notSupplying:"لا يوفّر الكهرباء", generator:"المولد", noPower:"لا كهرباء", currentSource:"المصدر الحالي", edl:"كهرباء الدولة", noSupply:"لا كهرباء", eventCount:"أحداث", generatorLabel:"المولد", noPowerLabel:"لا كهرباء", trackedHours:"ساعات مسجلة", today:"اليوم / الأربعاء ١٠ أيلول", powerTimeline:"مخطط الكهرباء", eventStream:"سجل الأحداث", todaysActivity:"نشاط اليوم", monthToDate:"إجمالي الشهر", footerTitle:"حرش الست · مراقبة حالة الكهرباء", footerRefresh:"تحديث البيانات تلقائياً" }
 };
 let activeLanguage = localStorage.getItem("power-language") || "en";
 let currentData = null;
@@ -18,6 +18,8 @@ const t = key => translations[activeLanguage][key] || translations.en[key] || ke
 const seconds = time => { const [h,m,s] = time.split(":").map(Number); return h * 3600 + m * 60 + s; };
 const titleTime = time => time.slice(0,5);
 const stateName = (edl, gen) => edl ? t("edl") : gen ? t("generatorLabel") : t("noSupply");
+const arabicMonths = { January:"يناير", February:"فبراير", March:"مارس", April:"أبريل", May:"مايو", June:"يونيو", July:"يوليو", August:"أغسطس", September:"سبتمبر", October:"أكتوبر", November:"نوفمبر", December:"ديسمبر" };
+const localizedMonth = label => activeLanguage === "ar" ? label.replace(/^[A-Za-z]+/, month => arabicMonths[month] || month) : label.toUpperCase();
 
 function applyLanguage(language) {
   activeLanguage = language;
@@ -100,8 +102,8 @@ function renderMonth(data) {
   const values = data.month, total = values.edl + values.gen + values.none;
   byId("tracked-hours").textContent = total.toFixed(1);
   byId("month-key").innerHTML = [["gen-dot",t("generatorLabel"),values.gen],["edl-dot",t("edl"),values.edl],["none-dot",t("noPowerLabel"),values.none]].map(([dot,label,value]) => `<li><span class="key-dot ${dot}"></span><div><b>${label}</b><small>${value.toFixed(1)} h · ${(value / total * 100).toFixed(1)}%</small></div></li>`).join("");
-  document.querySelector(".month-panel .eyebrow").textContent = values.label.toUpperCase();
-  document.querySelector(".month-note").textContent = `Figures are calculated from the source’s ${values.label} statistics.`;
+  byId("month-label").textContent = localizedMonth(values.label);
+  byId("month-note").textContent = activeLanguage === "ar" ? `يتم احتساب الأرقام من إحصاءات ${localizedMonth(values.label)}.` : `Figures are calculated from the source’s ${values.label} statistics.`;
 }
 
 function render(data) { currentData = data; setPower(data); renderTimeline(data); renderLogs(data); renderMonth(data); }
