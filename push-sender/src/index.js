@@ -4,6 +4,7 @@ const SOURCE_URL = "https://info.ghawi.me/chart_summary.php";
 const SUBSCRIPTION_PREFIX = "subscription:";
 const SOURCE_STATE_KEY = "state:source";
 const CHECKED_AT_KEY = "state:checked-at";
+const DIAGNOSTIC_KEY = "diagnostic:last";
 const encoder = new TextEncoder();
 
 const copy = {
@@ -191,6 +192,15 @@ async function unsubscribe(request, env) {
   return response(request, { ok: true });
 }
 
+async function diagnostic(request, env) {
+  let body;
+  try { body = await request.json(); } catch { return response(request, { ok: false, error: "Invalid JSON." }, 400); }
+  const stage = typeof body.stage === "string" && /^[a-z-]{1,40}$/.test(body.stage) ? body.stage : "unknown";
+  const detail = typeof body.detail === "string" ? body.detail.slice(0, 80) : "";
+  await env.PUSH_STATE.put(DIAGNOSTIC_KEY, JSON.stringify({ stage, detail, at: new Date().toISOString() }), { expirationTtl: 3600 });
+  return response(request, { ok: true });
+}
+
 function authorized(request, env) {
   return Boolean(env.PUSH_CHECK_TOKEN) && request.headers.get("X-PowerPulse-Token") === env.PUSH_CHECK_TOKEN;
 }
@@ -200,6 +210,7 @@ export default {
     const url = new URL(request.url);
     if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: headersFor(request) });
     if (request.method === "GET" && url.pathname === "/v1/config") return response(request, { vapidPublicKey: env.VAPID_PUBLIC_KEY });
+    if (request.method === "POST" && url.pathname === "/v1/diagnostics") return diagnostic(request, env);
     if (request.method === "POST" && url.pathname === "/v1/subscriptions") return subscribe(request, env);
     if (request.method === "DELETE" && url.pathname === "/v1/subscriptions") return unsubscribe(request, env);
     if (request.method === "GET" && url.pathname === "/health") {
