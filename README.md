@@ -8,6 +8,12 @@ Open `index.html` in a browser to view it. The page pulls the live source every 
 
 The site includes a web app manifest and service worker. On Android Chrome/Edge, open the site menu and choose **Install app**. On iPhone Safari, use **Share** then **Add to Home Screen**.
 
+## Notifications
+
+Open **Settings → Notifications** and turn the switch on. The app asks for the browser’s notification permission only after that explicit action, then alerts when the source changes between EDL, generator, and no supply. It also registers an Android background-check request where the browser supports it.
+
+On iPhone, Apple allows web notifications only from an installed Home Screen app (iOS/iPadOS 16.4 or newer), so install the app from Safari before enabling the switch. The service worker also handles standard Web Push messages if a push delivery service is added later.
+
 ## Genuine real-time updates
 
 The source data endpoint does not allow cross-origin browser requests, so GitHub Pages cannot safely fetch it directly. For updates within seconds, deploy the included fetch logic as a small server-side proxy (for example, a Cloudflare Worker) and have the page poll that proxy; a GitHub Pages-only deployment cannot meet that latency guarantee.

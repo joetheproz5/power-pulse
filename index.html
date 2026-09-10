@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="apple-touch-icon" href="icon.svg" />
-    <link rel="stylesheet" href="styles.css?v=20260910.32" />
+    <link rel="stylesheet" href="styles.css?v=20260910.33" />
     <script>window.DATA_MODE="live";</script>
     <title>Hart El Sett | Power Monitor</title>
   </head>
@@ -36,7 +36,16 @@
                   <button type="button" class="language-option" data-language="ar">العربية</button>
                 </div>
               </div>
-              <div class="setting-row is-disabled"><span data-i18n="notifications">Notifications</span><small data-i18n="comingSoon">Coming soon</small></div>
+              <div class="setting-row notification-setting">
+                <div class="notification-copy">
+                  <span data-i18n="notifications">Notifications</span>
+                  <small id="notification-status" aria-live="polite"></small>
+                </div>
+                <button class="notification-toggle" id="notifications-toggle" type="button" role="switch" aria-checked="false">
+                  <span class="notification-toggle-track" aria-hidden="true"><i></i></span>
+                  <span class="notification-toggle-label" id="notifications-toggle-label">Off</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -144,6 +153,6 @@
 
       <footer><span data-i18n="footerTitle">HART EL SETT · POWER MONITOR</span><span data-i18n="footerRefresh">Automatic data refresh enabled</span></footer>
     </main>
-  <script src="app.js?v=20260910.16"></script>
+  <script src="app.js?v=20260910.17"></script>
   </body>
 </html>
