@@ -119,17 +119,17 @@ async function subscriptions(env) {
   return entries;
 }
 
-async function latestSubscription(env) {
+async function oldestSubscription(env) {
   const keys = await subscriptions(env);
   const records = await Promise.all(keys.map(async ({ name }) => {
     const record = await env.PUSH_STATE.get(name, "json");
     return record?.subscription ? { ...record, key: name } : null;
   }));
-  return records.filter(Boolean).sort((left, right) => Date.parse(right.updatedAt) - Date.parse(left.updatedAt))[0] || null;
+  return records.filter(Boolean).sort((left, right) => Date.parse(left.updatedAt) - Date.parse(right.updatedAt))[0] || null;
 }
 
-async function sendLatestGridTest(env) {
-  const record = await latestSubscription(env);
+async function sendOldestGridTest(env) {
+  const record = await oldestSubscription(env);
   if (!record) return { sent: false, reason: "No subscription." };
   const outcome = await deliver(record, sourceMessage("grid", record.language), env);
   if (outcome === "gone") {
@@ -155,26 +155,14 @@ async function checkAndSend(env) {
     env.PUSH_STATE.put(CHECKED_AT_KEY, new Date().toISOString())
   ]);
 
-  const keys = await subscriptions(env);
-  let sent = 0;
-  let removed = 0;
-  for (let start = 0; start < keys.length; start += 6) {
-    const batch = keys.slice(start, start + 6);
-    const results = await Promise.allSettled(batch.map(async ({ name }) => {
-      const saved = await env.PUSH_STATE.get(name, "json");
-      if (!saved?.subscription) return;
-      const outcome = await deliver(saved, sourceMessage(source, saved.language), env);
-      if (outcome === "gone") {
-        await env.PUSH_STATE.delete(name);
-        removed += 1;
-      } else {
-        sent += 1;
-      }
-    }));
-    // A bad or temporarily unavailable push service must not prevent other devices from receiving this event.
-    results.filter(result => result.status === "rejected").forEach(() => {});
+  const record = await oldestSubscription(env);
+  if (!record) return { changed: true, source, sent: 0, removed: 0 };
+  const outcome = await deliver(record, sourceMessage(source, record.language), env);
+  if (outcome === "gone") {
+    await env.PUSH_STATE.delete(record.key);
+    return { changed: true, source, sent: 0, removed: 1 };
   }
-  return { changed: true, source, sent, removed };
+  return { changed: true, source, sent: 1, removed: 0 };
 }
 
 async function subscribe(request, env) {
@@ -243,7 +231,7 @@ export default {
     }
     if (request.method === "POST" && url.pathname === "/admin/test-grid") {
       if (!authorized(request, env)) return response(request, { ok: false }, 401);
-      return response(request, { ok: true, ...(await sendLatestGridTest(env)) });
+      return response(request, { ok: true, ...(await sendOldestGridTest(env)) });
     }
     return response(request, { ok: false, error: "Not found." }, 404);
   },
