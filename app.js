@@ -3,6 +3,7 @@ const REFRESH_MS=3000,BOOT_MIN_MS=760,bootStartedAt=performance.now();
 const findIn=page=>pattern=>page.match(pattern)?.[1]?.trim();
 function buildPayload(page,chart,weather){
   const find=findIn(page);
+  const logs=[...page.matchAll(/<font[^>]*>(.*?)<\/font>/gis)].map(m=>m[1].replace(/<[^>]+>/g,"").replace(/&nbsp;/g," ").trim()).filter(line=>/^(EDL|GEN) turned (ON|OFF):/i.test(line));
   const entries=normalizeTimeline(chart.rows.map(row=>[row.c[0].v.join(":"),Number(row.c[1].v),Number(row.c[2].v)]));
   const monthLabel=find(/<dtitle>([A-Za-z]+\s+\d{4})\s+statistics<\/dtitle>/i)||"Current month";
   const pie=[...page.matchAll(/y:\s*([\d.]+),\s*name:\s*"(EDL|GEN|No Power)"/g)].reduce((all,[,value,name])=>({...all,[name]:Number(value)}),{});
@@ -11,7 +12,7 @@ function buildPayload(page,chart,weather){
     sourceTime:find(/Updated:\s*([\d:]+)/i)||entries.at(-1)?.[0]||"—",
     temperature:weather?.temperature??"—",
     humidity:weather?.humidity??"—",
-    timeline:entries,logs:[],
+    timeline:entries,logs,
     month:{label:monthLabel,edl:pie.EDL||0,gen:pie.GEN||0,none:pie["No Power"]||0}
   };
 }
@@ -48,7 +49,7 @@ function setState(data){const[,edl,rawGen]=data.timeline.at(-1),gridOn=Boolean(e
 function segment(track,className,start,end){const node=document.createElement("span");node.className=`segment ${className}`;node.style.left=`${seconds(start)/864}%`;node.style.width=`${Math.max(.18,(seconds(end)-seconds(start))/864)}%`;track.append(node)}
 function renderHistory(data){["edl-track","gen-track","none-track"].forEach(id=>$(id).replaceChildren());data.timeline.forEach((row,i)=>{const[time,edl,rawGen]=row,end=data.timeline[i+1]?.[0]||time,gridOn=Boolean(edl),genOn=!gridOn&&Boolean(rawGen);if(gridOn)segment($("edl-track"),"edl-segment",time,end);if(genOn)segment($("gen-track"),"gen-segment",time,end);if(!gridOn&&!genOn)segment($("none-track"),"none-segment",time,end)})}
 function renderMonth(data){const v=data.month,total=v.edl+v.gen+v.none;$("tracked-hours").textContent=total.toFixed(1);$("month-key").innerHTML=[[t("generator"),v.gen],[t("edl"),v.edl],[t("noPower"),v.none]].map(([label,value])=>`<div class="breakdown-item"><b>${label}</b><small>${value.toFixed(1)} h · ${(value/total*100).toFixed(0)}%</small></div>`).join("")}
-function renderEvents(data){const events=data.timeline.map((row,index)=>({row,index,state:powerState(row)}));$("event-list").replaceChildren();events.forEach(({row,index,state})=>{const next=data.timeline[index+1],label=state==="edl"?"EDL supplying power":state==="gen"?"Generator supplying power":"No power supply",li=document.createElement("li");li.className=`event ${state==="edl"?"edl":state==="gen"?"gen":"none"}`;li.innerHTML=`<time>${timeLabel(row[0])}</time><p><strong>${label}</strong><small>${next?`Until ${timeLabel(next[0])}`:"Active now"}</small></p>`;$("event-list").append(li)});$("event-count").textContent=`${events.length} ${t("events")}`}
+function renderEvents(data){const events=data.logs.map(log=>{const match=log.match(/^(EDL|GEN) turned (ON|OFF):\s*(\d{1,2}:\d{2}\s*[AP]M)(?:\s+Till:\s*(.*))?$/i);return match&&{source:match[1].toUpperCase(),on:match[2].toUpperCase()==="ON",time:match[3],until:match[4]}}).filter(Boolean);$("event-list").replaceChildren();events.forEach(event=>{const time=new Date(`2000-01-01 ${event.time}`).toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",hour12:false}),li=document.createElement("li"),kind=event.source==="EDL"?"edl":event.on?"gen":"none";li.className=`event ${kind}`;li.innerHTML=`<time>${time}</time><p><strong>${event.source} turned ${event.on?"ON":"OFF"}: ${event.time}</strong><small>${event.until?`Until ${event.until}`:"Active now"}</small></p>`;$("event-list").append(li)});$("event-count").textContent=`${events.length} ${t("events")}`}
 function sourceKey(data){const latest=data.timeline[data.timeline.length-1]||[];return latest[1]?"grid":latest[2]?"generator":"off"}
 function supportsNotifications(){return "Notification"in window&&"serviceWorker"in navigator}
 function supportsPush(){return supportsNotifications()&&"PushManager"in window}
