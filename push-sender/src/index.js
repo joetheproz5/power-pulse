@@ -5,6 +5,8 @@ const SUBSCRIPTION_PREFIX = "subscription:";
 const SOURCE_STATE_KEY = "state:source";
 const CHECKED_AT_KEY = "state:checked-at";
 const DIAGNOSTIC_KEY = "diagnostic:last";
+const LIVE_CACHE_KEY = new Request("https://powerpulse-cache.invalid/live");
+const LIVE_CACHE_TTL_MS = 3_000;
 const encoder = new TextEncoder();
 
 const copy = {
@@ -108,6 +110,23 @@ async function currentSource() {
   return edl > 0 ? "grid" : generator > 0 ? "generator" : "off";
 }
 
+async function liveStatus() {
+  const cache = caches.default;
+  const cached = await cache.match(LIVE_CACHE_KEY);
+  if (cached) {
+    const value = await cached.clone().json();
+    if (Date.now() - value.generatedAt < LIVE_CACHE_TTL_MS) return value;
+  }
+  const [pageResponse, chartResponse] = await Promise.all([
+    fetch("https://info.ghawi.me/", { headers: { "user-agent": "PowerPulse live status" } }),
+    fetch(SOURCE_URL, { headers: { "user-agent": "PowerPulse live status" } })
+  ]);
+  if (!pageResponse.ok || !chartResponse.ok) throw new Error("Power source is unavailable");
+  const value = { generatedAt: Date.now(), page: await pageResponse.text(), chart: await chartResponse.json() };
+  await cache.put(LIVE_CACHE_KEY, new Response(JSON.stringify(value), { headers: { "Content-Type": "application/json" } }));
+  return value;
+}
+
 async function subscriptions(env) {
   const entries = [];
   let cursor;
@@ -155,14 +174,16 @@ async function checkAndSend(env) {
     env.PUSH_STATE.put(CHECKED_AT_KEY, new Date().toISOString())
   ]);
 
-  const record = await oldestSubscription(env);
-  if (!record) return { changed: true, source, sent: 0, removed: 0 };
-  const outcome = await deliver(record, sourceMessage(source, record.language), env);
-  if (outcome === "gone") {
-    await env.PUSH_STATE.delete(record.key);
-    return { changed: true, source, sent: 0, removed: 1 };
+  const keys = await subscriptions(env);
+  let sent = 0;
+  let removed = 0;
+  for (const { name } of keys) {
+    const record = await env.PUSH_STATE.get(name, "json");
+    if (!record?.subscription) continue;
+    const outcome = await deliver(record, sourceMessage(source, record.language), env);
+    if (outcome === "gone") { await env.PUSH_STATE.delete(name); removed += 1; } else { sent += 1; }
   }
-  return { changed: true, source, sent: 1, removed: 0 };
+  return { changed: true, source, sent, removed };
 }
 
 async function subscribe(request, env) {
@@ -218,6 +239,9 @@ export default {
     const url = new URL(request.url);
     if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: headersFor(request) });
     if (request.method === "GET" && url.pathname === "/v1/config") return response(request, { vapidPublicKey: env.VAPID_PUBLIC_KEY });
+    if (request.method === "GET" && url.pathname === "/v1/live") {
+      try { return response(request, await liveStatus()); } catch { return response(request, { ok: false, error: "Live source is unavailable." }, 503); }
+    }
     if (request.method === "POST" && url.pathname === "/v1/diagnostics") return diagnostic(request, env);
     if (request.method === "POST" && url.pathname === "/v1/subscriptions") return subscribe(request, env);
     if (request.method === "DELETE" && url.pathname === "/v1/subscriptions") return unsubscribe(request, env);
