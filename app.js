@@ -1,7 +1,7 @@
 const fallback={generatedAt:"2026-09-10T17:56:01+03:00",sourceTime:"17:56:01",temperature:"34.3",humidity:"95.0",timeline:[["00:00:02",0,1],["00:08:04",0,0],["00:09:03",0,1],["08:15:26",1,1],["08:16:03",1,0],["09:59:53",0,0],["10:01:03",0,1],["17:56:01",0,1]],logs:["GEN turned ON: 12:00 AM Till: 08:15 AM (8H15M)","EDL turned ON: 08:15 AM Till: 09:59 AM (1H44M)","GEN turned OFF: 09:59 AM Till: 10:01 AM (2M)","GEN turned ON: 10:01 AM Till: 05:56 PM (7H55M)"],month:{label:"September 2026",edl:35.8,gen:173,none:1}};
 const REFRESH_MS=3000,BOOT_MIN_MS=760,bootStartedAt=performance.now();
 const findIn=page=>pattern=>page.match(pattern)?.[1]?.trim();
-function buildPayload(page,chart){
+function buildPayload(page,chart,weather){
   const find=findIn(page);
   const logs=[...page.matchAll(/<font[^>]*>(.*?)<\/font>/gis)].map(m=>m[1].replace(/<[^>]+>/g,"").replace(/&nbsp;/g," ").trim()).filter(line=>/turned (ON|OFF)/i.test(line));
   const entries=chart.rows.map(row=>[row.c[0].v.join(":"),Number(row.c[1].v),Number(row.c[2].v)]);
@@ -10,8 +10,8 @@ function buildPayload(page,chart){
   return{
     generatedAt:new Date().toISOString(),
     sourceTime:find(/Updated:\s*([\d:]+)/i)||entries.at(-1)?.[0]||"—",
-    temperature:find(/Temperature:\s*([\d.]+)C/i)||"—",
-    humidity:find(/Humidity:\s*([\d.]+)%/i)||"—",
+    temperature:weather?.temperature??"—",
+    humidity:weather?.humidity??"—",
     timeline:entries,logs,
     month:{label:monthLabel,edl:pie.EDL||0,gen:pie.GEN||0,none:pie["No Power"]||0}
   };
@@ -19,8 +19,8 @@ function buildPayload(page,chart){
 async function loadLive(){
   const response=await fetch(`${PUSH_SENDER_URL}/v1/live`,{cache:"no-store",signal:AbortSignal.timeout(9000)});
   if(!response.ok)throw Error(`Live status HTTP ${response.status}`);
-  const {page,chart}=await response.json();
-  const payload=buildPayload(page,chart);
+  const {page,chart,weather}=await response.json();
+  const payload=buildPayload(page,chart,weather);
   if(!payload.timeline.length||payload.sourceTime==="—")throw Error("bad payload");
   return payload;
 }

@@ -7,6 +7,9 @@ const CHECKED_AT_KEY = "state:checked-at";
 const DIAGNOSTIC_KEY = "diagnostic:last";
 const LIVE_CACHE_KEY = new Request("https://powerpulse-cache.invalid/live");
 const LIVE_CACHE_TTL_MS = 3_000;
+const WEATHER_CACHE_KEY = new Request("https://powerpulse-cache.invalid/weather");
+const WEATHER_CACHE_TTL_MS = 10 * 60_000;
+const WEATHER_URL = "https://api.open-meteo.com/v1/forecast?latitude=33.8246993&longitude=35.5671541&current=temperature_2m,relative_humidity_2m&timezone=Asia%2FBeirut";
 const encoder = new TextEncoder();
 
 const copy = {
@@ -117,14 +120,31 @@ async function liveStatus() {
     const value = await cached.clone().json();
     if (Date.now() - value.generatedAt < LIVE_CACHE_TTL_MS) return value;
   }
-  const [pageResponse, chartResponse] = await Promise.all([
+  const [pageResponse, chartResponse, weather] = await Promise.all([
     fetch("https://info.ghawi.me/", { headers: { "user-agent": "PowerPulse live status" } }),
-    fetch(SOURCE_URL, { headers: { "user-agent": "PowerPulse live status" } })
+    fetch(SOURCE_URL, { headers: { "user-agent": "PowerPulse live status" } }),
+    currentWeather()
   ]);
   if (!pageResponse.ok || !chartResponse.ok) throw new Error("Power source is unavailable");
-  const value = { generatedAt: Date.now(), page: await pageResponse.text(), chart: await chartResponse.json() };
+  const value = { generatedAt: Date.now(), page: await pageResponse.text(), chart: await chartResponse.json(), weather };
   await cache.put(LIVE_CACHE_KEY, new Response(JSON.stringify(value), { headers: { "Content-Type": "application/json" } }));
   return value;
+}
+
+async function currentWeather() {
+  const cache = caches.default;
+  const cached = await cache.match(WEATHER_CACHE_KEY);
+  if (cached) {
+    const value = await cached.clone().json();
+    if (Date.now() - value.generatedAt < WEATHER_CACHE_TTL_MS) return value.weather;
+  }
+  const response = await fetch(WEATHER_URL);
+  if (!response.ok) throw new Error("Weather source is unavailable");
+  const current = await response.json();
+  const weather = { temperature: current.current?.temperature_2m, humidity: current.current?.relative_humidity_2m };
+  if (!Number.isFinite(weather.temperature) || !Number.isFinite(weather.humidity)) throw new Error("Weather source returned invalid data");
+  await cache.put(WEATHER_CACHE_KEY, new Response(JSON.stringify({ generatedAt: Date.now(), weather }), { headers: { "Content-Type": "application/json" } }));
+  return weather;
 }
 
 async function subscriptions(env) {
