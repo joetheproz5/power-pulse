@@ -119,6 +119,26 @@ async function subscriptions(env) {
   return entries;
 }
 
+async function latestSubscription(env) {
+  const keys = await subscriptions(env);
+  const records = await Promise.all(keys.map(async ({ name }) => {
+    const record = await env.PUSH_STATE.get(name, "json");
+    return record?.subscription ? { ...record, key: name } : null;
+  }));
+  return records.filter(Boolean).sort((left, right) => Date.parse(right.updatedAt) - Date.parse(left.updatedAt))[0] || null;
+}
+
+async function sendLatestGridTest(env) {
+  const record = await latestSubscription(env);
+  if (!record) return { sent: false, reason: "No subscription." };
+  const outcome = await deliver(record, sourceMessage("grid", record.language), env);
+  if (outcome === "gone") {
+    await env.PUSH_STATE.delete(record.key);
+    return { sent: false, reason: "Subscription expired." };
+  }
+  return { sent: true, language: record.language };
+}
+
 async function checkAndSend(env) {
   const source = await currentSource();
   const previous = await env.PUSH_STATE.get(SOURCE_STATE_KEY);
@@ -220,6 +240,10 @@ export default {
     if (request.method === "POST" && url.pathname === "/admin/check") {
       if (!authorized(request, env)) return response(request, { ok: false }, 401);
       return response(request, { ok: true, ...(await checkAndSend(env)) });
+    }
+    if (request.method === "POST" && url.pathname === "/admin/test-grid") {
+      if (!authorized(request, env)) return response(request, { ok: false }, 401);
+      return response(request, { ok: true, ...(await sendLatestGridTest(env)) });
     }
     return response(request, { ok: false, error: "Not found." }, 404);
   },
