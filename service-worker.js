@@ -1,5 +1,5 @@
-const CACHE = "hart-el-sett-power-v48";
-const APP_FILES = ["./", "./index.html", "./styles.css?v=20260910.35", "./app.js?v=20260911.29", "./manifest.webmanifest", "./icon.svg"];
+const CACHE = "hart-el-sett-power-v49";
+const APP_FILES = ["./", "./index.html", "./styles.css?v=20260910.35", "./app.js?v=20260912.31", "./manifest.webmanifest", "./icon.svg"];
 const NOTIFICATION_CACHE = "hart-el-sett-notification-state-v1";
 const NOTIFICATION_PREFERENCE = new Request(new URL("./notification-preference", self.location.origin));
 const NOTIFICATION_STATE = new Request(new URL("./notification-state", self.location.origin));
