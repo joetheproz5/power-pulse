@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-09-22T06:11:02.878Z",
-  "sourceTime": "09:11:02",
-  "temperature": 24.5,
-  "humidity": 66,
+  "generatedAt": "2026-09-22T11:35:18.722Z",
+  "sourceTime": "14:35:02",
+  "temperature": 27.3,
+  "humidity": 58,
   "timeline": [
     [
       "00:00:02",
@@ -10,18 +10,84 @@
       1
     ],
     [
-      "09:11:02",
+      "10:01:54",
+      0,
+      1
+    ],
+    [
+      "10:01:56",
+      1,
+      1
+    ],
+    [
+      "10:02:02",
+      1,
+      1
+    ],
+    [
+      "10:02:04",
+      1,
+      0
+    ],
+    [
+      "11:59:37",
+      1,
+      0
+    ],
+    [
+      "11:59:39",
+      0,
+      0
+    ],
+    [
+      "12:01:02",
+      0,
+      0
+    ],
+    [
+      "12:01:04",
+      0,
+      1
+    ],
+    [
+      "12:56:01",
+      0,
+      1
+    ],
+    [
+      "12:56:03",
+      0,
+      0
+    ],
+    [
+      "12:57:01",
+      0,
+      0
+    ],
+    [
+      "12:57:03",
+      0,
+      1
+    ],
+    [
+      "14:35:02",
       0,
       1
     ]
   ],
   "logs": [
-    "GEN turned ON: 12:00 AM Till: 09:11 AM (9H11M)"
+    "GEN turned ON: 12:00 AM Till: 10:01 AM (10H1M)",
+    "EDL turned ON: 10:01 AM Till: 10:02 AM (1M)",
+    "EDL turned ON: 10:02 AM Till: 11:59 AM (1H57M)",
+    "GEN turned OFF: 11:59 AM Till: 12:01 PM (2M)",
+    "GEN turned ON: 12:01 PM Till: 12:56 PM (55M)",
+    "GEN turned OFF: 12:56 PM Till: 12:57 PM (1M)",
+    "GEN turned ON: 12:57 PM Till: 02:35 PM (1H38M)"
   ],
   "month": {
     "label": "September 2026",
-    "edl": 89.1,
-    "gen": 397.1,
-    "none": 2.6
+    "edl": 91,
+    "gen": 400.5,
+    "none": 2.7
   }
 }
