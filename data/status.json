@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-10-04T01:33:09.366Z",
-  "sourceTime": "04:33:02",
-  "temperature": 20.7,
-  "humidity": 44,
+  "generatedAt": "2026-10-04T07:21:10.118Z",
+  "sourceTime": "10:21:01",
+  "temperature": 25.5,
+  "humidity": 38,
   "timeline": [
     [
       "00:00:02",
@@ -10,18 +10,62 @@
       1
     ],
     [
-      "04:33:02",
+      "08:00:27",
+      0,
+      1
+    ],
+    [
+      "08:00:29",
+      1,
+      1
+    ],
+    [
+      "08:01:02",
+      1,
+      1
+    ],
+    [
+      "08:01:04",
+      1,
+      0
+    ],
+    [
+      "10:00:34",
+      1,
+      0
+    ],
+    [
+      "10:00:36",
+      0,
+      0
+    ],
+    [
+      "10:02:02",
+      0,
+      0
+    ],
+    [
+      "10:02:04",
+      0,
+      1
+    ],
+    [
+      "10:21:01",
       0,
       1
     ]
   ],
   "logs": [
-    "GEN turned ON: 12:00 AM Till: 04:33 AM (4H33M)"
+    "GEN turned ON: 12:00 AM Till: 08:00 AM (8H)",
+    "EDL turned ON: 08:00 AM Till: 08:01 AM (1M)",
+    "EDL turned ON: 08:01 AM Till: 10:00 AM (1H59M)",
+    "GEN turned OFF: 10:00 AM Till: 10:02 AM (2M)",
+    "GEN turned ON: 10:02 AM Till: 10:21 AM (19M)"
   ],
   "month": {
     "label": "October 2026",
-    "edl": 14.9,
-    "gen": 61.2,
+    "edl": 16.9,
+    "gen": 65,
     "none": 0.4
   }
 }
