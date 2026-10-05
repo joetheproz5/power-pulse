@@ -9,19 +9,19 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="apple-touch-icon" href="icon.svg" />
-    <link rel="stylesheet" href="styles.css?v=20260910.35" />
+    <link rel="stylesheet" href="styles.css?v=20261005.1" />
     <script>window.DATA_MODE="live";</script>
     <title>Hart El Sett | Power Monitor</title>
   </head>
   <body>
-    <div class="app-boot" aria-label="Loading live power status">
-      <div class="boot-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></svg><span>HART EL SETT <b>POWER</b></span><i class="boot-sweep" aria-hidden="true"></i></div>
+    <div class="app-boot" data-i18n-aria="loading" aria-label="Loading live power status">
+      <div class="boot-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></svg><span data-i18n="brand">HART EL SETT POWER</span><i class="boot-sweep" aria-hidden="true"></i></div>
     </div>
     <main class="app-shell">
       <header class="appbar">
-        <a class="product-mark" href="#top" aria-label="Hart El Sett power monitor">
+        <a class="product-mark" href="#top" data-i18n-aria="appAria" aria-label="Hart El Sett power monitor">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></svg>
-          <span>HART EL SETT <b>POWER</b></span>
+          <span data-i18n="brand">HART EL SETT POWER</span>
         </a>
         <div class="appbar-right">
           <div class="connection"><i></i><span data-i18n="connected">Connected</span></div>
@@ -34,7 +34,7 @@
               <p class="settings-title" data-i18n="settings">Settings</p>
               <div class="setting-group">
                 <span data-i18n="language">Language</span>
-                <div class="language-options" role="group" aria-label="Language">
+                <div class="language-options" role="group" data-i18n-aria="language" aria-label="Language">
                   <button type="button" class="language-option is-selected" data-language="en">English</button>
                   <button type="button" class="language-option" data-language="ar">العربية</button>
                 </div>
@@ -62,14 +62,14 @@
         </div>
       </section>
 
-      <section class="route-panel" aria-label="Current power route">
+      <section class="route-panel" data-i18n-aria="powerRoute" aria-label="Current power route">
         <div class="panel-head">
           <h2 data-i18n="powerRoute">Power route</h2>
           <span class="head-sub" id="route-live" data-i18n="currentRoute">Current route</span>
         </div>
         <div class="route-stage">
           <article class="node source-node" id="edl-card" data-side="left">
-            <div class="node-head"><span class="node-tag">EDL</span><span class="node-state" id="edl-state">Offline</span></div>
+            <div class="node-head"><span class="node-tag" data-i18n="edl">EDL</span><span class="node-state" id="edl-state">Offline</span></div>
             <span class="node-icon"><svg class="grid-icon" viewBox="0 0 72 72" aria-hidden="true"><path d="M8 64 36 6l28 58M16 50h40M21 39h30M26 28h20M31 17h10M36 6v58M8 64h56M16 50l20-11 20 11M21 39l15-11 15 11M26 28l10-11 10 11"/><path d="M12 56H4m56 0h8M17 45H8m47 0h9M22 34h-9m46 0h9"/></svg></span>
             <p class="node-name" data-i18n="nationalGrid">National grid</p>
           </article>
@@ -83,7 +83,7 @@
           </div>
 
           <article class="node home-node" id="home-module">
-            <div class="node-head"><span class="node-tag">HOME</span><span class="node-state live" id="home-source">Generator</span></div>
+            <div class="node-head"><span class="node-tag" data-i18n="home">HOME</span><span class="node-state live" id="home-source">Generator</span></div>
             <div class="house" aria-hidden="true">
               <svg viewBox="0 0 240 190">
                 <defs>
@@ -120,7 +120,7 @@
           </div>
 
           <article class="node source-node" id="gen-card" data-side="right">
-            <div class="node-head"><span class="node-tag">GEN</span><span class="node-state" id="gen-state">Running</span></div>
+            <div class="node-head"><span class="node-tag" data-i18n="gen">GEN</span><span class="node-state" id="gen-state">Running</span></div>
             <span class="node-icon"><svg class="generator-icon" viewBox="0 0 72 72" aria-hidden="true"><path d="M8 28h49v30H8zM19 28v-8c0-3 3-6 6-6h16c3 0 6 3 6 6v8M57 35h7v16h-7M16 38h15M16 45h15M16 52h15M38 37h11v12H38zM42 39v8m-3-4h7"/><path d="M15 63h9m25 0h9M17 58v5m37-5v5M26 21h14"/></svg></span>
             <p class="node-name" data-i18n="privateGenerator">Private generator</p>
           </article>
@@ -141,9 +141,9 @@
       </section>
 
       <section class="history-panel">
-        <div class="panel-header"><div><p class="section-kicker" data-i18n="today">TODAY / WED 10 SEP</p><h2 data-i18n="powerHistory">Power history</h2></div><div class="legend"><span><i class="edl-line"></i>EDL</span><span><i class="gen-line"></i><b data-i18n="generator">Generator</b></span><span><i class="off-line"></i><b data-i18n="noPower">No power</b></span></div></div>
+        <div class="panel-header"><div><p class="section-kicker" id="today-label">TODAY</p><h2 data-i18n="powerHistory">Power history</h2></div><div class="legend"><span><i class="edl-line"></i><b data-i18n="edl">EDL</b></span><span><i class="gen-line"></i><b data-i18n="generator">Generator</b></span><span><i class="off-line"></i><b data-i18n="noPower">No power</b></span></div></div>
         <div class="history-grid">
-          <div class="track-labels"><span>EDL</span><span>GEN</span><span data-i18n="noPower">No power</span></div>
+          <div class="track-labels"><span data-i18n="edl">EDL</span><span data-i18n="gen">GEN</span><span data-i18n="noPower">No power</span></div>
           <div class="tracks"><div class="track" id="edl-track"></div><div class="track" id="gen-track"></div><div class="track" id="none-track"></div></div>
         </div>
         <div class="time-scale"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
@@ -156,6 +156,6 @@
 
       <footer><span data-i18n="footerTitle">HART EL SETT · POWER MONITOR</span><span data-i18n="footerRefresh">Automatic data refresh enabled</span></footer>
     </main>
-<script src="app.js?v=20260912.31"></script>
+<script src="app.js?v=20261005.1"></script>
   </body>
 </html>
