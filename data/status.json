@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-10-12T09:23:58.129Z",
-  "sourceTime": "12:23:01",
-  "temperature": 24.3,
-  "humidity": 77,
+  "generatedAt": "2026-10-12T19:10:25.249Z",
+  "sourceTime": "22:10:02",
+  "temperature": 20.9,
+  "humidity": 91,
   "timeline": [
     [
       "00:00:02",
@@ -30,20 +30,108 @@
       0
     ],
     [
-      "12:23:01",
+      "15:01:05",
       1,
       0
+    ],
+    [
+      "15:01:07",
+      0,
+      0
+    ],
+    [
+      "15:02:01",
+      0,
+      0
+    ],
+    [
+      "15:02:03",
+      0,
+      1
+    ],
+    [
+      "20:00:39",
+      0,
+      1
+    ],
+    [
+      "20:00:41",
+      1,
+      1
+    ],
+    [
+      "20:01:01",
+      1,
+      1
+    ],
+    [
+      "20:01:03",
+      1,
+      0
+    ],
+    [
+      "21:59:51",
+      1,
+      0
+    ],
+    [
+      "21:59:53",
+      0,
+      0
+    ],
+    [
+      "22:01:02",
+      0,
+      0
+    ],
+    [
+      "22:01:04",
+      0,
+      1
+    ],
+    [
+      "22:06:01",
+      0,
+      1
+    ],
+    [
+      "22:06:03",
+      0,
+      0
+    ],
+    [
+      "22:09:02",
+      0,
+      0
+    ],
+    [
+      "22:09:04",
+      0,
+      1
+    ],
+    [
+      "22:10:02",
+      0,
+      1
     ]
   ],
   "logs": [
     "GEN turned ON: 12:00 AM Till: 12:00 PM (12H)",
     "EDL turned ON: 12:00 PM Till: 12:01 PM (1M)",
-    "EDL turned ON: 12:01 PM Till: 12:23 PM (22M)"
+    "EDL turned ON: 12:01 PM Till: 03:01 PM (3H)",
+    "GEN turned OFF: 03:01 PM Till: 03:02 PM (1M)",
+    "GEN turned ON: 03:02 PM Till: 08:00 PM (4H58M)",
+    "EDL turned ON: 08:00 PM Till: 08:01 PM (1M)",
+    "EDL turned ON: 08:01 PM Till: 09:59 PM (1H58M)",
+    "GEN turned OFF: 09:59 PM Till: 10:01 PM (2M)",
+    "GEN turned ON: 10:01 PM Till: 10:06 PM (5M)",
+    "GEN turned OFF: 10:06 PM Till: 10:09 PM (3M)",
+    "GEN turned ON: 10:09 PM Till: 10:10 PM (1M)"
   ],
   "month": {
     "label": "October 2026",
-    "edl": 53.9,
-    "gen": 220.9,
-    "none": 1.4
+    "edl": 58.5,
+    "gen": 226,
+    "none": 1.5
   }
 }
