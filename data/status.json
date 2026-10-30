@@ -1,115 +1,49 @@
 {
-  "generatedAt": "2026-10-29T20:41:28.676Z",
-  "sourceTime": "22:41:01",
-  "temperature": 17.9,
-  "humidity": 81,
+  "generatedAt": "2026-10-30T00:23:42.704Z",
+  "sourceTime": "02:23:02",
+  "temperature": 18,
+  "humidity": 71,
   "timeline": [
     [
       "00:00:03",
-      0,
-      1
-    ],
-    [
-      "10:00:53",
-      0,
-      1
-    ],
-    [
-      "10:00:55",
-      1,
-      1
-    ],
-    [
-      "10:01:01",
-      1,
-      1
-    ],
-    [
-      "10:01:03",
       1,
       0
     ],
     [
-      "12:02:42",
+      "00:03:05",
       1,
       0
     ],
     [
-      "12:02:44",
+      "00:03:07",
       0,
       0
     ],
     [
-      "12:04:02",
+      "00:05:02",
       0,
       0
     ],
     [
-      "12:04:04",
+      "00:05:04",
       0,
       1
     ],
     [
-      "16:38:02",
+      "02:23:02",
       0,
       1
-    ],
-    [
-      "16:38:04",
-      0,
-      0
-    ],
-    [
-      "16:39:02",
-      0,
-      0
-    ],
-    [
-      "16:39:04",
-      0,
-      1
-    ],
-    [
-      "22:01:12",
-      0,
-      1
-    ],
-    [
-      "22:01:14",
-      1,
-      1
-    ],
-    [
-      "22:02:01",
-      1,
-      1
-    ],
-    [
-      "22:02:03",
-      1,
-      0
-    ],
-    [
-      "22:41:01",
-      1,
-      0
     ]
   ],
   "logs": [
-    "GEN turned ON: 12:00 AM Till: 10:00 AM (10H)",
-    "EDL turned ON: 10:00 AM Till: 10:01 AM (1M)",
-    "EDL turned ON: 10:01 AM Till: 12:02 PM (2H1M)",
-    "GEN turned OFF: 12:02 PM Till: 12:04 PM (2M)",
-    "GEN turned ON: 12:04 PM Till: 04:38 PM (4H34M)",
-    "GEN turned OFF: 04:38 PM Till: 04:39 PM (1M)",
-    "GEN turned ON: 04:39 PM Till: 10:01 PM (5H22M)",
-    "EDL turned ON: 10:01 PM Till: 10:02 PM (1M)",
-    "EDL turned ON: 10:02 PM Till: 10:41 PM (39M)"
+    "EDL turned ON: 12:00 AM Till: 12:03 AM (3M)",
+    "GEN turned OFF: 12:03 AM Till: 12:05 AM (2M)",
+    "GEN turned ON: 12:05 AM Till: 02:23 AM (2H18M)"
   ],
   "month": {
     "label": "October 2026",
-    "edl": 126.8,
-    "gen": 564.3,
+    "edl": 128.1,
+    "gen": 566.6,
     "none": 3.1
   }
 }
