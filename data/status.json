@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-06T16:11:09.644Z",
-  "sourceTime": "18:11:02",
-  "temperature": 18.1,
-  "humidity": 79,
+  "generatedAt": "2026-11-06T21:28:41.699Z",
+  "sourceTime": "23:28:02",
+  "temperature": 16.9,
+  "humidity": 77,
   "timeline": [
     [
       "00:00:03",
@@ -90,9 +90,109 @@
       1
     ],
     [
-      "18:11:02",
+      "19:11:28",
       0,
       1
+    ],
+    [
+      "19:11:30",
+      1,
+      1
+    ],
+    [
+      "19:12:02",
+      1,
+      1
+    ],
+    [
+      "19:12:04",
+      1,
+      0
+    ],
+    [
+      "19:47:30",
+      1,
+      0
+    ],
+    [
+      "19:47:32",
+      0,
+      0
+    ],
+    [
+      "19:49:02",
+      0,
+      0
+    ],
+    [
+      "19:49:04",
+      0,
+      1
+    ],
+    [
+      "19:50:07",
+      0,
+      1
+    ],
+    [
+      "19:50:09",
+      1,
+      1
+    ],
+    [
+      "19:51:01",
+      1,
+      1
+    ],
+    [
+      "19:51:03",
+      1,
+      0
+    ],
+    [
+      "20:28:11",
+      1,
+      0
+    ],
+    [
+      "20:28:13",
+      0,
+      0
+    ],
+    [
+      "20:29:01",
+      0,
+      0
+    ],
+    [
+      "20:29:03",
+      0,
+      1
+    ],
+    [
+      "22:00:19",
+      0,
+      1
+    ],
+    [
+      "22:00:21",
+      1,
+      1
+    ],
+    [
+      "22:01:02",
+      1,
+      1
+    ],
+    [
+      "22:01:04",
+      1,
+      0
+    ],
+    [
+      "23:28:02",
+      1,
+      0
     ]
   ],
   "logs": [
@@ -104,12 +204,22 @@
     "GEN turned OFF: 11:00 AM Till: 11:02 AM (2M)",
     "GEN turned ON: 11:02 AM Till: 03:54 PM (4H52M)",
     "GEN turned OFF: 03:54 PM Till: 03:55 PM (1M)",
-    "GEN turned ON: 03:55 PM Till: 06:11 PM (2H16M)"
+    "GEN turned ON: 03:55 PM Till: 07:11 PM (3H16M)",
+    "EDL turned ON: 07:11 PM Till: 07:12 PM (1M)",
+    "EDL turned ON: 07:12 PM Till: 07:47 PM (35M)",
+    "GEN turned OFF: 07:47 PM Till: 07:49 PM (2M)",
+    "GEN turned ON: 07:49 PM Till: 07:50 PM (1M)",
+    "EDL turned ON: 07:50 PM Till: 07:51 PM (1M)",
+    "EDL turned ON: 07:51 PM Till: 08:28 PM (37M)",
+    "GEN turned OFF: 08:28 PM Till: 08:29 PM (1M)",
+    "GEN turned ON: 08:29 PM Till: 10:00 PM (1H31M)",
+    "EDL turned ON: 10:00 PM Till: 10:01 PM (1M)",
+    "EDL turned ON: 10:01 PM Till: 11:28 PM (1H27M)"
   ],
   "month": {
     "label": "November 2026",
-    "edl": 26.7,
-    "gen": 110.9,
+    "edl": 29.4,
+    "gen": 113.5,
     "none": 0.5
   }
 }
