@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-19T23:11:00.199Z",
-  "sourceTime": "01:10:02",
-  "temperature": 18.2,
-  "humidity": 47,
+  "generatedAt": "2026-11-20T03:57:51.941Z",
+  "sourceTime": "05:57:02",
+  "temperature": 18.5,
+  "humidity": 41,
   "timeline": [
     [
       "00:00:02",
@@ -10,18 +10,18 @@
       1
     ],
     [
-      "01:10:02",
+      "05:57:02",
       0,
       1
     ]
   ],
   "logs": [
-    "GEN turned ON: 12:00 AM Till: 01:10 AM (1H10M)"
+    "GEN turned ON: 12:00 AM Till: 05:57 AM (5H57M)"
   ],
   "month": {
     "label": "November 2026",
     "edl": 86.9,
-    "gen": 368.1,
+    "gen": 372.9,
     "none": 1.8
   }
 }
