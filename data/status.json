@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-28T11:49:03.760Z",
-  "sourceTime": "13:49:02",
-  "temperature": 22.5,
-  "humidity": 60,
+  "generatedAt": "2026-11-28T19:09:20.986Z",
+  "sourceTime": "21:09:02",
+  "temperature": "—",
+  "humidity": "—",
   "timeline": [
     [
       "00:00:02",
@@ -50,7 +50,67 @@
       1
     ],
     [
-      "13:49:02",
+      "16:29:02",
+      0,
+      1
+    ],
+    [
+      "16:29:04",
+      0,
+      0
+    ],
+    [
+      "16:30:01",
+      0,
+      0
+    ],
+    [
+      "16:30:03",
+      0,
+      1
+    ],
+    [
+      "20:43:44",
+      0,
+      1
+    ],
+    [
+      "20:43:46",
+      1,
+      1
+    ],
+    [
+      "20:44:02",
+      1,
+      1
+    ],
+    [
+      "20:44:04",
+      1,
+      0
+    ],
+    [
+      "21:05:22",
+      1,
+      0
+    ],
+    [
+      "21:05:24",
+      0,
+      0
+    ],
+    [
+      "21:07:03",
+      0,
+      0
+    ],
+    [
+      "21:07:05",
+      0,
+      1
+    ],
+    [
+      "21:09:02",
       0,
       1
     ]
@@ -60,12 +120,18 @@
     "EDL turned ON: 08:00 AM Till: 08:01 AM (1M)",
     "EDL turned ON: 08:01 AM Till: 10:00 AM (1H59M)",
     "GEN turned OFF: 10:00 AM Till: 10:02 AM (2M)",
-    "GEN turned ON: 10:02 AM Till: 01:49 PM (3H47M)"
+    "GEN turned ON: 10:02 AM Till: 04:29 PM (6H27M)",
+    "GEN turned OFF: 04:29 PM Till: 04:30 PM (1M)",
+    "GEN turned ON: 04:30 PM Till: 08:43 PM (4H13M)",
+    "EDL turned ON: 08:43 PM Till: 08:44 PM (1M)",
+    "EDL turned ON: 08:44 PM Till: 09:05 PM (21M)",
+    "GEN turned OFF: 09:05 PM Till: 09:07 PM (2M)",
+    "GEN turned ON: 09:07 PM Till: 09:09 PM (2M)"
   ],
   "month": {
     "label": "November 2026",
-    "edl": 122.2,
-    "gen": 536.4,
+    "edl": 122.6,
+    "gen": 543.4,
     "none": 2.7
   }
 }
